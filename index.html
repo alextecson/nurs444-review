@@ -505,12 +505,13 @@ function grade(chosen){
     ${!ok?`<div class="fb-correct">Correct answer: ${correctAnswerText}</div>`:''}
     <div class="fb-body">${q.rationale}</div>
     ${ok?`<div class="fb-xp">+${XP_CORRECT} XP</div>`:''}
-    <button class="btn-cont" onclick="next()">${G.hearts===0?'See Results →':G.qi+1>=SESSION_LEN?'Finish Session →':'Continue →'}</button>`;
+    <button class="btn-cont" id="contBtn">${G.hearts===0?'See Results →':G.qi+1>=SESSION_LEN?'Finish Session →':'Continue →'}</button>`;
   document.body.appendChild(overlay);
   document.body.appendChild(panel);
-
-  // Update XP display
-  const hxp=$('hxp');if(hxp)hxp.textContent='+'+G.xpEarned+' XP';
+  // Wire the button directly so it always fires, and scroll it into view
+  const cb=document.getElementById('contBtn');
+  if(cb){cb.onclick=next;cb.scrollIntoView({block:'nearest'});}
+  overlay.onclick=next;
 }
 
 function loseHeart(){
