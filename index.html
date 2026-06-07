@@ -257,30 +257,36 @@ const QB=[
 
 // ── CONSTANTS ──────────────────────────────────────────────────────────────────
 const LEVELS=[
-  {name:'Student Nurse',icon:'🩺',next:150},
-  {name:'Intern',icon:'💊',next:400},
-  {name:'Resident',icon:'🩻',next:800},
-  {name:'Attending',icon:'❤️',next:1500},
-  {name:'Fellow',icon:'🏥',next:2500},
-  {name:'Chief of Staff',icon:'🚨',next:Infinity}
+  {name:'Pre-Req Student',icon:'📚',next:80},
+  {name:'1st Semester Nursing Student',icon:'🩺',next:200},
+  {name:'Nurse Apprentice',icon:'🔬',next:360},
+  {name:'Graduating Nursing Student',icon:'🎓',next:560},
+  {name:'REGISTERED NURSE 🎉',icon:'💊',next:800},
+  {name:'New Grad Nurse',icon:'🏥',next:1100},
+  {name:'Experienced Nurse',icon:'⭐',next:1500},
+  {name:'Preceptor Nurse',icon:'👩‍⚕️',next:2000},
+  {name:'ICU Nurse',icon:'🚨',next:2600},
+  {name:'CCRN',icon:'🧠',next:Infinity}
 ];
 const BADGES={
-  first_session:{icon:'🎯',name:'First Shift',desc:'Complete your first session'},
-  perfect:{icon:'⭐',name:'Perfect Round',desc:'No wrong answers in a session'},
-  streak3:{icon:'🔥',name:'On Fire',desc:'3-day streak'},
-  streak7:{icon:'💥',name:'Unstoppable',desc:'7-day streak'},
-  intern:{icon:'💊',name:'Made Intern',desc:'Reach Intern level'},
-  resident:{icon:'🩻',name:'Made Resident',desc:'Reach Resident level'},
-  attending:{icon:'❤️',name:'Made Attending',desc:'Reach Attending level'}
+  pre_req:{icon:'📚',name:'Pre-Req Student',desc:'You started the journey — pre-reqs in progress'},
+  accepted:{icon:'🎉',name:'Accepted to Nursing School',desc:'You got in — the hard part begins'},
+  apprentice:{icon:'🔬',name:'Nurse Apprentice',desc:'Hands on, learning every shift'},
+  rn:{icon:'💊',name:'RN LICENSE EARNED 🎊',desc:'REGISTERED NURSE — everything you worked for'},
+  new_grad:{icon:'🏥',name:'First Day on the Floor',desc:'Orientation complete — you\'re on your own'},
+  experienced:{icon:'⭐',name:'Seasoned Clinician',desc:'You\'ve seen things. You handle it.'},
+  preceptor:{icon:'👩‍⚕️',name:'Someone Called You Preceptor',desc:'Now you\'re the one they learn from'},
+  icu:{icon:'🚨',name:'ICU Badge Activated',desc:'Critical care is your home now'},
+  ccrn:{icon:'🧠',name:'CCRN Certified',desc:'The gold standard. You earned it.'},
 };
-const LVL_BADGES=['','intern','resident','attending','',''];
+const LVL_BADGES=['pre_req','accepted','apprentice','','rn','new_grad','experienced','preceptor','icu','ccrn'];
 const SESSION_LEN=10, MAX_HEARTS=3, XP_CORRECT=10;
 
 // ── STORAGE ────────────────────────────────────────────────────────────────────
 const Store={
   key:'nurs444_cb_v1',
   mem:null,
-  def(){return{xp:0,streak:0,lastPlayed:null,topicScores:{},badges:[],totalSessions:0};},
+  def(){return{xp:0,streak:0,lastPlayed:null,topicScores:{},badges:[],totalSessions:0,seenVariants:{}};},
   async load(){
     try{const r=await window.storage.get(this.key);const d=r?{...this.def(),...JSON.parse(r.value)}:this.def();this.mem=d;return d;}
     catch(e){this.mem=this.mem||this.def();return this.mem;}
@@ -321,7 +327,7 @@ function buildSession(){
     const ts=DATA.topicScores[g.group]||{c:0,w:0};
     const tot=ts.c+ts.w;
     const wr=tot>0?ts.w/tot:0;
-    return{g,weight:1+wr*3}; // weak topics up to 4x more likely
+    return{g,weight:1+wr*3};
   });
   const selected=[], pool=[...weighted];
   const n=Math.min(SESSION_LEN,QB.length);
@@ -330,9 +336,18 @@ function buildSession(){
     let r=Math.random()*totalW;
     for(let j=0;j<pool.length;j++){r-=pool[j].weight;if(r<=0){selected.push(pool[j].g);pool.splice(j,1);break;}}
   }
+  // Shuffle question ORDER so sequence is never predictable across restarts
+  shuffle(selected);
+  if(!DATA.seenVariants)DATA.seenVariants={};
   return selected.map(grp=>{
-    const raw=grp.qs[0|Math.random()*grp.qs.length];
-    // CORRECT ANSWER MATCHING BY TEXT — never breaks on shuffle
+    // Variant rotation: never show the same wording twice in a row
+    const lastIdx=DATA.seenVariants[grp.group]??-1;
+    const availIdxs=grp.qs.map((_,i)=>i).filter(i=>i!==lastIdx);
+    const varIdx=availIdxs.length>0
+      ?availIdxs[0|Math.random()*availIdxs.length]
+      :0|Math.random()*grp.qs.length;
+    DATA.seenVariants[grp.group]=varIdx;
+    const raw=grp.qs[varIdx];
     const shuffledOpts=shuffle([...raw.o]);
     const correctTexts=new Set(raw.c);
     const correctIdxs=[];
