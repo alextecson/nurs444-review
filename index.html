@@ -375,12 +375,9 @@ function updateStreak(){
 function checkBadges(sessionCorrect,sessionTotal,newXP){
   const has=b=>DATA.badges.includes(b);
   const newB=[];
-  if(!has('first_session'))newB.push('first_session');
-  if(sessionCorrect===sessionTotal&&!has('perfect'))newB.push('perfect');
-  if(DATA.streak>=3&&!has('streak3'))newB.push('streak3');
-  if(DATA.streak>=7&&!has('streak7'))newB.push('streak7');
+  // Only award level-progression badges that actually exist in BADGES
   const lvlBadge=LVL_BADGES[getLevel(newXP)];
-  if(lvlBadge&&!has(lvlBadge))newB.push(lvlBadge);
+  if(lvlBadge&&BADGES[lvlBadge]&&!has(lvlBadge))newB.push(lvlBadge);
   newB.forEach(b=>{if(!DATA.badges.includes(b))DATA.badges.push(b);});
   return newB;
 }
@@ -396,7 +393,7 @@ function showHome(){
     <div class="home-header">
       <div class="app-logo">🚨</div>
       <div class="app-title">Code Blue</div>
-      <div class="app-sub">NURS 444 Critical Care Review &nbsp;·&nbsp; v2.2</div>
+      <div class="app-sub">NURS 444 Critical Care Review &nbsp;·&nbsp; v2.3</div>
     </div>
     <div class="level-card">
       <div class="level-row">
@@ -554,9 +551,9 @@ function showResults(oldLv){
       <div class="sbox"><div class="sn">${SESSION_LEN-G.correct}</div><div class="sl">Incorrect</div></div>
       <div class="sbox"><div class="sn">🔥${DATA.streak}</div><div class="sl">Day Streak</div></div>
     </div>
-    ${G.newBadges.length?`<div class="new-bdg">
+    ${G.newBadges.filter(id=>BADGES[id]).length?`<div class="new-bdg">
       <div class="sec-title">🏅 New Badges Earned!</div>
-      <div class="bdg-row">${G.newBadges.map(id=>`<div class="bdg-pill">${BADGES[id].icon} ${BADGES[id].name}</div>`).join('')}</div>
+      <div class="bdg-row">${G.newBadges.filter(id=>BADGES[id]).map(id=>`<div class="bdg-pill">${BADGES[id].icon} ${BADGES[id].name}</div>`).join('')}</div>
     </div>`:''}
     <div class="breakdown">
       <div class="sec-title" style="margin-bottom:8px">Session Breakdown</div>
