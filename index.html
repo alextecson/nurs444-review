@@ -3,485 +3,576 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crash Cart Challenge – NURS 444</title>
+<title>Code Blue – NURS 444</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:12px}
-#app{width:100%;max-width:760px}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;display:flex;justify-content:center;padding:0}
+#app{width:100%;max-width:640px;position:relative}
 
-/* START */
-.start-card{background:#161b22;border:1px solid #21262d;border-radius:16px;padding:48px 36px;text-align:center}
-.logo{font-size:52px;margin-bottom:12px}
-h1{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#ef4444,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
-.subtitle{color:#8b949e;font-size:.95rem;margin-bottom:32px}
-.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:32px;text-align:left}
-.topic-pill{background:#21262d;border:1px solid #30363d;border-radius:8px;padding:8px 12px;font-size:.78rem;color:#c9d1d9}
-.topic-pill span{display:block;font-size:.65rem;color:#8b949e;margin-top:2px}
-.btn-primary{background:linear-gradient(135deg,#ef4444,#f97316);border:none;color:#fff;padding:16px 48px;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:transform .15s,opacity .15s;letter-spacing:.5px}
-.btn-primary:hover{transform:translateY(-2px);opacity:.92}
-.meta{color:#8b949e;font-size:.8rem;margin-top:16px}
+/* HOME */
+.home{padding:20px 16px 48px}
+.home-header{text-align:center;padding:16px 0 20px}
+.app-logo{font-size:42px}
+.app-title{font-size:1.6rem;font-weight:900;color:#ef4444}
+.app-sub{font-size:.8rem;color:#8b949e;margin-top:2px}
+.level-card{background:#161b22;border:1px solid #21262d;border-radius:16px;padding:18px;margin-bottom:14px}
+.level-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.level-badge{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1rem}
+.xp-lbl{font-size:.78rem;color:#8b949e}
+.xp-bg{background:#21262d;border-radius:99px;height:10px;overflow:hidden}
+.xp-fill{height:10px;border-radius:99px;background:linear-gradient(90deg,#22c55e,#86efac);transition:width .6s ease}
+.streak-card{background:linear-gradient(135deg,#1a0f00,#2d1800);border:1px solid #f97316;border-radius:16px;padding:18px;margin-bottom:14px;text-align:center}
+.streak-num{font-size:2.8rem;font-weight:900;color:#f97316;line-height:1}
+.streak-lbl{font-size:.85rem;color:#fdba74;margin-top:4px}
+.streak-sub{font-size:.73rem;color:#8b949e;margin-top:2px}
+.btn-start{width:100%;background:linear-gradient(135deg,#22c55e,#15803d);border:none;color:#fff;padding:18px;border-radius:14px;font-size:1.1rem;font-weight:800;cursor:pointer;margin-bottom:14px;box-shadow:0 4px 20px rgba(34,197,94,.3);transition:transform .15s,opacity .15s}
+.btn-start:hover{transform:translateY(-2px);opacity:.92}
+.sec-title{font-size:.72rem;color:#8b949e;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;font-weight:600}
+.focus-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:14px;margin-bottom:14px}
+.fi{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #21262d}
+.fi:last-child{border-bottom:none}
+.fi-name{font-size:.86rem;color:#c9d1d9}
+.fi-right{display:flex;align-items:center;gap:7px}
+.fi-pct{font-size:.73rem;color:#ef4444;font-weight:700;min-width:36px;text-align:right}
+.fi-bar-bg{width:54px;background:#21262d;border-radius:99px;height:5px;overflow:hidden}
+.fi-bar{height:5px;border-radius:99px;background:#ef4444}
+.badges-card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:14px;margin-bottom:14px}
+.badges-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.bp{background:#21262d;border:1px solid #30363d;border-radius:8px;padding:5px 9px;font-size:.78rem;display:flex;align-items:center;gap:5px;color:#8b949e}
+.bp.earned{border-color:#f59e0b;background:#2d1f00;color:#fbbf24}
 
-/* GAME HUD */
-.hud{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
-.hud-left{display:flex;align-items:center;gap:12px}
-.progress-text{font-size:.85rem;color:#8b949e}
-.streak-badge{background:#21262d;border:1px solid #30363d;border-radius:8px;padding:4px 10px;font-size:.85rem;font-weight:700}
-.streak-badge.hot{border-color:#f97316;color:#f97316}
-.score-display{font-size:1rem;font-weight:700;color:#58a6ff}
-
-/* TIMER */
-.timer-wrap{margin-bottom:20px}
-.timer-bar-bg{background:#21262d;border-radius:99px;height:6px;overflow:hidden}
-.timer-bar{height:6px;border-radius:99px;transition:width .9s linear,background .5s;background:#22c55e}
-.timer-bar.warn{background:#f97316}
-.timer-bar.danger{background:#ef4444}
-.timer-label{font-size:.75rem;color:#8b949e;text-align:right;margin-top:4px}
-
-/* QUESTION CARD */
-.q-card{background:#161b22;border:1px solid #21262d;border-radius:16px;padding:28px}
-.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.q-category{background:#21262d;color:#58a6ff;border-radius:6px;padding:3px 10px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-.q-type{color:#8b949e;font-size:.72rem}
-.q-stem{font-size:1rem;line-height:1.65;color:#e6edf3;margin-bottom:22px;font-weight:500}
-.sata-hint{color:#f97316;font-size:.78rem;margin-bottom:12px;font-weight:600}
-
-/* OPTIONS */
-.options{display:flex;flex-direction:column;gap:10px}
-.opt{background:#0d1117;border:1.5px solid #30363d;border-radius:10px;padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s;display:flex;align-items:flex-start;gap:12px;text-align:left;font-size:.92rem;line-height:1.5;color:#c9d1d9;width:100%}
-.opt:hover:not(:disabled){border-color:#58a6ff;background:#161b22;color:#e6edf3}
-.opt-letter{background:#21262d;border-radius:6px;min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;color:#8b949e;flex-shrink:0}
-.opt.selected .opt-letter{background:#1f6feb;color:#fff}
-.opt.selected{border-color:#58a6ff;background:#0d2240}
-.opt.correct{border-color:#22c55e !important;background:#0f2a1a !important}
-.opt.correct .opt-letter{background:#22c55e !important;color:#fff !important}
-.opt.wrong{border-color:#ef4444 !important;background:#2a0f0f !important}
-.opt.wrong .opt-letter{background:#ef4444 !important;color:#fff !important}
-.opt.missed{border-color:#22c55e !important;border-style:dashed !important}
-.opt:disabled{cursor:default}
-
-/* SUBMIT */
-.submit-wrap{margin-top:16px;text-align:center}
-.btn-submit{background:#1f6feb;border:none;color:#fff;padding:12px 36px;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:opacity .15s}
-.btn-submit:hover{opacity:.85}
-.btn-submit:disabled{opacity:.4;cursor:not-allowed}
+/* SESSION */
+.session{display:flex;flex-direction:column;min-height:100vh}
+.hud{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px;background:#0d1117;border-bottom:1px solid #21262d;position:sticky;top:0;z-index:10}
+.hearts{display:flex;gap:4px;font-size:1.2rem}
+.heart{transition:all .3s}
+.heart.lost{filter:grayscale(1);opacity:.3;transform:scale(.8)}
+.dots{display:flex;gap:3px}
+.dot{width:20px;height:7px;border-radius:99px;background:#21262d;transition:background .25s}
+.dot.done{background:#22c55e}
+.dot.cur{background:#58a6ff}
+.hud-xp{font-size:.82rem;color:#58a6ff;font-weight:700}
+.qwrap{padding:18px 16px}
+.q-tag{display:inline-block;background:#21262d;color:#58a6ff;border-radius:6px;padding:3px 10px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.q-typetag{display:inline-block;background:#21262d;color:#8b949e;border-radius:6px;padding:3px 8px;font-size:.7rem;margin-bottom:10px;margin-left:5px}
+.q-stem{font-size:1.02rem;line-height:1.65;color:#e6edf3;font-weight:500;margin-bottom:18px}
+.sata-note{color:#f97316;font-size:.76rem;font-weight:600;margin-bottom:12px;background:#2d1a00;border:1px solid #f97316;border-radius:8px;padding:7px 11px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{background:#161b22;border:2px solid #21262d;border-radius:12px;padding:13px 15px;cursor:pointer;display:flex;align-items:flex-start;gap:11px;font-size:.92rem;line-height:1.5;color:#c9d1d9;text-align:left;width:100%;transition:border-color .12s,background .12s}
+.opt:hover:not([disabled]){border-color:#58a6ff;background:#0a1829;color:#e6edf3}
+.opt.sel{border-color:#58a6ff;background:#0a1829}
+.opt.sel .ol{background:#1f6feb;color:#fff}
+.opt.correct{border-color:#22c55e!important;background:#071a0e!important}
+.opt.correct .ol{background:#22c55e!important;color:#fff!important}
+.opt.wrong{border-color:#ef4444!important;background:#1a0707!important}
+.opt.wrong .ol{background:#ef4444!important;color:#fff!important}
+.opt.missed{border-color:#22c55e!important;border-style:dashed!important}
+.ol{background:#21262d;border-radius:6px;min-width:27px;height:27px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.76rem;color:#8b949e;flex-shrink:0}
+.sub-wrap{padding:14px 16px;text-align:center}
+.btn-sub{background:#1f6feb;border:none;color:#fff;padding:12px 36px;border-radius:10px;font-size:.92rem;font-weight:700;cursor:pointer;transition:opacity .15s}
+.btn-sub:disabled{opacity:.35;cursor:not-allowed}
 
 /* FEEDBACK */
-.feedback-overlay{margin-top:20px;border-radius:12px;padding:18px 20px;animation:fadeIn .3s ease}
-.feedback-overlay.correct-fb{background:#0f2a1a;border:1px solid #22c55e}
-.feedback-overlay.wrong-fb{background:#2a0f0f;border:1px solid #ef4444}
-.feedback-header{font-size:1rem;font-weight:700;margin-bottom:8px}
-.feedback-overlay.correct-fb .feedback-header{color:#22c55e}
-.feedback-overlay.wrong-fb .feedback-header{color:#ef4444}
-.feedback-rationale{color:#c9d1d9;font-size:.87rem;line-height:1.6}
-.pts-earned{font-size:.8rem;color:#58a6ff;margin-top:6px;font-weight:600}
-.btn-next{margin-top:12px;background:#21262d;border:1px solid #30363d;color:#e6edf3;padding:10px 28px;border-radius:8px;font-size:.88rem;font-weight:600;cursor:pointer;transition:background .15s}
-.btn-next:hover{background:#30363d}
+.fb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99}
+.fb{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:640px;border-radius:20px 20px 0 0;padding:22px 18px 28px;z-index:100;animation:sUp .28s ease}
+.fb.ok{background:#071a0e;border:2px solid #22c55e;border-bottom:none}
+.fb.err{background:#1a0707;border:2px solid #ef4444;border-bottom:none}
+.fb-head{font-size:1.15rem;font-weight:800;margin-bottom:7px}
+.fb.ok .fb-head{color:#22c55e}
+.fb.err .fb-head{color:#ef4444}
+.fb-correct{font-size:.8rem;color:#f87171;font-weight:600;margin-bottom:8px}
+.fb-body{font-size:.86rem;line-height:1.6;color:#c9d1d9;margin-bottom:14px}
+.fb-xp{font-size:.8rem;color:#58a6ff;font-weight:700;margin-bottom:12px}
+.btn-cont{width:100%;padding:14px;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer}
+.fb.ok .btn-cont{background:#22c55e;color:#fff}
+.fb.err .btn-cont{background:#ef4444;color:#fff}
 
-/* END */
-.end-card{background:#161b22;border:1px solid #21262d;border-radius:16px;padding:36px 28px;text-align:center}
-.end-icon{font-size:56px;margin-bottom:12px}
-.end-score{font-size:3rem;font-weight:900;margin-bottom:4px;background:linear-gradient(135deg,#58a6ff,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.grade-badge{display:inline-block;padding:6px 20px;border-radius:99px;font-size:1.1rem;font-weight:800;margin-bottom:20px}
-.grade-A{background:#0f2a1a;color:#22c55e;border:1px solid #22c55e}
-.grade-B{background:#1a2a0f;color:#86efac;border:1px solid #86efac}
-.grade-C{background:#2a1f0f;color:#fbbf24;border:1px solid #fbbf24}
-.grade-D{background:#2a150f;color:#f97316;border:1px solid #f97316}
-.grade-F{background:#2a0f0f;color:#ef4444;border:1px solid #ef4444}
-.breakdown-title{font-size:.85rem;color:#8b949e;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
-.breakdown-grid{display:grid;gap:8px;margin-bottom:24px;text-align:left}
-.breakdown-item{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-.breakdown-cat{font-size:.85rem;color:#c9d1d9}
-.breakdown-result{font-size:.85rem;font-weight:700}
-.result-correct{color:#22c55e}
-.result-wrong{color:#ef4444}
-.end-stats{display:flex;gap:16px;justify-content:center;margin-bottom:24px;flex-wrap:wrap}
-.stat-box{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:14px 20px;text-align:center}
-.stat-num{font-size:1.4rem;font-weight:800;color:#58a6ff}
-.stat-lbl{font-size:.72rem;color:#8b949e;margin-top:2px}
-.btn-again{background:linear-gradient(135deg,#ef4444,#f97316);border:none;color:#fff;padding:14px 40px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .15s}
-.btn-again:hover{transform:translateY(-2px)}
+/* RESULTS */
+.results{padding:22px 16px 40px;text-align:center}
+.res-icon{font-size:60px;margin-bottom:10px;animation:bounce .5s ease}
+.res-title{font-size:1.5rem;font-weight:900;margin-bottom:4px}
+.res-sub{color:#8b949e;font-size:.88rem;margin-bottom:20px;line-height:1.5}
+.xp-big{font-size:2.4rem;font-weight:900;color:#22c55e}
+.xp-big-lbl{font-size:.82rem;color:#8b949e;margin-bottom:20px}
+.stats-row{display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
+.sbox{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:14px 20px;text-align:center}
+.sn{font-size:1.5rem;font-weight:800;color:#58a6ff}
+.sl{font-size:.7rem;color:#8b949e;margin-top:2px}
+.new-bdg{margin-bottom:18px}
+.bdg-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.bdg-pill{background:#2d1f00;border:1px solid #f59e0b;border-radius:10px;padding:9px 13px;font-size:.83rem;color:#fbbf24;display:flex;align-items:center;gap:5px}
+.breakdown{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:14px;margin-bottom:20px;text-align:left}
+.bdi{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #21262d;font-size:.86rem}
+.bdi:last-child{border-bottom:none}
+.bdi-name{color:#c9d1d9}
+.bdi-ok{color:#22c55e;font-weight:700}
+.bdi-err{color:#ef4444;font-weight:700}
+.res-btns{display:flex;flex-direction:column;gap:10px}
+.btn-again{background:linear-gradient(135deg,#22c55e,#15803d);border:none;color:#fff;padding:16px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(34,197,94,.3)}
+.btn-home{background:#21262d;border:1px solid #30363d;color:#e6edf3;padding:14px;border-radius:12px;font-size:.93rem;font-weight:600;cursor:pointer}
 
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:500px){h1{font-size:1.5rem}.q-card{padding:18px}.start-card{padding:28px 18px}}
+/* GAME OVER */
+.gameover{padding:24px 16px;text-align:center;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.go-icon{font-size:68px;margin-bottom:14px}
+.go-title{font-size:1.5rem;font-weight:900;color:#ef4444;margin-bottom:8px}
+.go-sub{color:#8b949e;font-size:.9rem;margin-bottom:30px;line-height:1.6}
+.btn-retry{background:linear-gradient(135deg,#ef4444,#f97316);border:none;color:#fff;padding:16px 48px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:12px;display:block;width:100%;max-width:280px}
+.btn-go-home{background:#21262d;border:1px solid #30363d;color:#e6edf3;padding:13px 40px;border-radius:12px;font-size:.92rem;font-weight:600;cursor:pointer;width:100%;max-width:280px}
+
+@keyframes sUp{from{transform:translateX(-50%) translateY(100%)}to{transform:translateX(-50%) translateY(0)}}
+@keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.shake{animation:shake .3s ease}
+@media(max-width:480px){.q-stem{font-size:.96rem}.app-title{font-size:1.4rem}}
 </style>
 </head>
 <body>
-<div id="app"></div>
+<div id="app"><div style="text-align:center;padding:60px 20px;color:#8b949e">🚨<br><br>Loading...</div></div>
 <script>
-// ─── QUESTION BANK ─────────────────────────────────────────────────────────
-// 25 concept groups × 3 variants = 75 questions
-// Each game session: 15 random groups, 1 random variant each
-
-const QB = [
+// ── QUESTION BANK ─────────────────────────────────────────────────────────────
+// CRITICAL: c[] contains EXACT TEXT of correct options (matched by text, not index)
+// This prevents any shuffling bugs — correct answers are always found by text match
+const QB=[
 {group:"Chest Tubes",qs:[
-{t:"mc",s:"A client is 12 hours post-left lobectomy. The nurse suspects an air leak in the water-seal chest drainage system. Where should continuous bubbling be assessed to confirm?",o:["Collection chamber","Water-seal chamber","Suction control chamber","Suction regulator port"],c:[1],r:"Continuous bubbling in the water-seal (middle) chamber confirms an air leak. The collection chamber stores drainage; the suction control chamber regulates suction. Tidaling (fluctuation) in the water-seal is normal; continuous bubbling is not."},
-{t:"mc",s:"Post-thoracotomy, the nurse notes continuous bubbling in one chamber of the chest drainage unit. Which chamber indicates an air leak when this finding is present?",o:["Suction control chamber","Drainage collection chamber","Water-seal chamber","Chest tube connector"],c:[1],r:"An air leak is confirmed by continuous bubbling in the water-seal chamber. Occasional bubbling in the suction chamber is expected with active suction. Tidaling with respirations in the water-seal is normal."},
-{t:"mc",s:"After a right upper lobectomy, the nurse assesses the chest tube system and finds steady bubbling that does not change with breathing. This finding in which chamber indicates a persistent air leak?",o:["Wet suction chamber","Drainage collection cylinder","Water-seal chamber","Suction tubing junction"],c:[1],r:"Constant bubbling in the water-seal chamber = air leak (lung or system). Tidaling is normal. Intermittent bubbling in the suction control chamber is expected when suction is applied."}
+{s:"12 hours post-left lobectomy, the nurse suspects an air leak. Which chamber should show continuous bubbling to confirm?",o:["Collection chamber","Water-seal chamber","Suction control chamber","Suction regulator port"],c:["Water-seal chamber"],r:"Continuous bubbling in the water-seal (middle) chamber = air leak. Collection chamber stores drainage. Intermittent suction chamber bubbling is normal. Tidaling with respirations is expected."},
+{s:"Post-thoracotomy, the nurse notes continuous bubbling in one chamber. Which chamber indicates an air leak?",o:["Suction control chamber","Drainage collection chamber","Water-seal chamber","Connector site"],c:["Water-seal chamber"],r:"Air leaks are confirmed by continuous bubbling in the water-seal chamber. Tidaling is normal. Intermittent bubbling in the suction chamber is expected when suction is applied."},
+{s:"After a right upper lobectomy, the nurse finds steady bubbling that does NOT change with breathing. This finding in which chamber indicates a persistent air leak?",o:["Wet suction chamber","Drainage collection cylinder","Water-seal chamber","Suction tubing junction"],c:["Water-seal chamber"],r:"Constant bubbling in the water-seal chamber = air leak (lung or system). Tidaling is normal. Suction chamber bubbling is expected when suction is active."}
 ]},
 {group:"CVI Management",qs:[
-{t:"sata",s:"A client with CVI and a venous stasis ulcer is being discharged. Which teaching points are appropriate? (Select all that apply.)",o:["Apply compression stockings before getting out of bed","Elevate legs above heart level several times daily","Walk daily and do ankle-pump exercises","Keep legs dependent when sitting to improve circulation","Moisturize lower legs and use nonadherent dressings on ulcers","Apply heating pads to increase blood flow"],c:[0,1,2,4],r:"Compression stockings should be applied before rising (prevents AM edema), elevation reduces venous pressure, walking promotes calf-pump return, and skin care prevents breakdown. Dependent positioning and heating pads worsen CVI and risk burns."},
-{t:"mc",s:"A client with chronic venous insufficiency says, 'I sit with my feet flat on the floor most of the day while watching TV.' What is the nurse's priority teaching point?",o:["That is fine — walking is what matters most","You should elevate your legs above heart level whenever possible","Make sure to wear shoes when sitting to prevent injury","You can sit with feet flat as long as you use compression stockings"],c:[1],r:"Dependent positioning increases venous pooling and edema in CVI. Clients should elevate legs whenever sitting to promote venous return. Compression stockings alone do not substitute for elevation."},
-{t:"mc",s:"Which instruction is most important for a client with venous stasis ulcers to prevent recurrence?",o:["Avoid walking to protect the wound","Wear prescribed graduated compression and elevate legs as directed","Apply a heating pad to improve circulation","Keep ulcers dry and uncovered to allow air exposure"],c:[1],r:"Compression therapy and leg elevation are the cornerstones of CVI management. Walking is encouraged (activates calf muscle pump). Heating pads risk burns in compromised skin. Venous ulcers require moist, not dry, wound care."}
+{s:"A client with CVI and venous stasis ulcer is being discharged. Which teaching point is INCORRECT?",o:["Apply compression stockings before rising","Elevate legs above heart level daily","Keep legs dependent when sitting to improve circulation","Walk daily and do ankle-pump exercises"],c:["Keep legs dependent when sitting to improve circulation"],r:"Dependent positioning increases venous pooling and worsens edema in CVI. Elevation is essential. Compression, elevation, and walking are all correct CVI interventions."},
+{s:"Which instruction is most important for a client with venous stasis ulcers?",o:["Avoid walking to protect the ulcer","Wear compression stockings and elevate legs as directed","Apply a heating pad to improve circulation","Keep the ulcer dry and uncovered"],c:["Wear compression stockings and elevate legs as directed"],r:"Compression therapy and leg elevation are the cornerstones of CVI management. Walking is encouraged (calf muscle pump). Heating pads risk burns. Venous ulcers need moist wound care."},
+{s:"Which client statement about CVI management indicates a need for further teaching?",o:["I put my stockings on before I get out of bed","I prop my feet above my heart a few times a day","I sit with my feet flat on the floor when watching TV","I walk around the neighborhood every morning"],c:["I sit with my feet flat on the floor when watching TV"],r:"Keeping legs dependent increases venous pooling and worsens CVI edema. Clients should elevate legs whenever possible, not leave them in a dependent position."}
 ]},
 {group:"TB Discharge Criteria",qs:[
-{t:"mc",s:"A hospitalized client with pulmonary TB is clinically improving on multi-drug therapy. Discharge is being planned. Which nurse statement is most accurate?",o:["The client must stay until three consecutive sputum smears are negative","Discharge is appropriate with DOT arranged, public health follow-up, and no high-risk household contacts","One negative NAAT test clears the client for discharge to any facility","A negative PPD skin test indicates readiness for discharge"],c:[1],r:"Safe TB discharge requires DOT arrangement (not self-administration), a public health monitoring plan, and no vulnerable household members. Three negative smears alone are not the sole discharge criterion. PPD does not become negative after treatment."},
-{t:"mc",s:"Which combination of factors makes home discharge most appropriate for a client with active pulmonary tuberculosis?",o:["Client has one negative sputum smear and will self-administer medications","DOT is arranged, public health follow-up is confirmed, and no immunocompromised members live in the home","Chest x-ray shows improvement and client has private insurance","Client completed 2 weeks of four-drug regimen with no side effects reported"],c:[1],r:"Safe TB home discharge requires supervised therapy (DOT), public health monitoring, and the absence of high-risk household contacts. Improvement in imaging or medication tolerance alone does not meet discharge criteria."},
-{t:"mc",s:"A nurse educator is reviewing TB discharge criteria with the unit staff. Which statement requires correction?",o:["DOT should be arranged before discharge","Home discharge is allowed even if a household member is immunocompromised, as long as the client wears a mask","A public health follow-up plan is required for discharge","High-risk household contacts are a barrier to safe home discharge"],c:[1],r:"An immunocompromised household member is a contraindication to home discharge with active TB, regardless of mask use. TB transmission risk remains significant. All other statements correctly reflect evidence-based discharge criteria."}
+{s:"A hospitalized client with pulmonary TB is improving on multi-drug therapy. Which discharge statement is most accurate?",o:["Stay until three consecutive sputum smears are negative","Discharge is appropriate with DOT arranged, public health follow-up, and no high-risk household contacts","One negative NAAT test clears the client for any facility","A negative PPD indicates readiness for discharge"],c:["Discharge is appropriate with DOT arranged, public health follow-up, and no high-risk household contacts"],r:"Safe TB discharge requires DOT arrangement, a public health monitoring plan, and no vulnerable household members. PPD does not become negative after treatment."},
+{s:"Which factor makes home discharge INAPPROPRIATE for a client with active pulmonary TB?",o:["Client is tolerating medications without GI side effects","An immunocompromised family member lives in the home","Client has had two weeks of four-drug therapy","Chest x-ray shows improvement"],c:["An immunocompromised family member lives in the home"],r:"An immunocompromised household member is a contraindication to TB home discharge regardless of mask use. Transmission risk remains significant."},
+{s:"Which statement about TB discharge requires correction?",o:["DOT must be arranged before discharge","Home discharge is safe with an immunocompromised household member as long as the client wears a mask","Public health follow-up is required","High-risk household contacts are a barrier to home discharge"],c:["Home discharge is safe with an immunocompromised household member as long as the client wears a mask"],r:"An immunocompromised household member is a contraindication to TB home discharge regardless of mask use."}
 ]},
-{group:"Moderate Asthma Exacerbation",qs:[
-{t:"mc",s:"A 22-year-old with moderate persistent asthma has a peak flow of 60% of personal best, nocturnal awakenings, and SpO₂ 94%. Which action is most appropriate?",o:["Instruct the client to increase inhaled corticosteroid dose for immediate relief","Administer a short-acting beta-agonist and reassess peak flow in 15–20 minutes","Send the client to the emergency department immediately","No action needed; reassess in 4 hours"],c:[1],r:"Peak flow 40–79% (yellow zone) indicates a moderate exacerbation. Priority is a SABA (albuterol) and reassessment in 15–20 minutes. Emergency transfer is premature. Inhaled corticosteroids are not rescue agents."},
-{t:"mc",s:"A client's peak flow is 300 L/min with a personal best of 500 L/min (60%). Which medication should the nurse administer first?",o:["Budesonide (inhaled corticosteroid)","Montelukast (leukotriene antagonist)","Albuterol (short-acting beta-agonist)","Salmeterol (long-acting beta-agonist)"],c:[2],r:"Peak flow 60% = yellow zone, moderate exacerbation. Albuterol (SABA) is the first-line rescue agent. Inhaled corticosteroids and LABAs are controller medications, not rescue agents."},
-{t:"mc",s:"A client with asthma reports waking twice last night with shortness of breath. Current peak flow is 65% of personal best. Which clinical zone applies and what is the priority intervention?",o:["Green zone; reinforce daily controller medication adherence","Yellow zone; administer a SABA and reassess response in 15–20 min","Red zone; call 911 and prepare for emergency intubation","Blue zone; begin systemic steroids immediately"],c:[1],r:"40–79% = yellow zone (caution). Priority is a short-acting beta-agonist and peak flow reassessment in 15–20 minutes. Red zone (< 40%) requires emergency care. There is no clinical 'blue zone.'"}
+{group:"Asthma Exacerbation",qs:[
+{s:"A client with moderate persistent asthma has peak flow 60% of personal best, nocturnal awakenings, and SpO₂ 94%. Most appropriate action?",o:["Increase inhaled corticosteroid for immediate relief","Administer a SABA and reassess peak flow in 15–20 minutes","Send to the emergency department immediately","No action needed; reassess in 4 hours"],c:["Administer a SABA and reassess peak flow in 15–20 minutes"],r:"Peak flow 40–79% = yellow zone (moderate). Priority: SABA (albuterol) + reassessment in 15–20 minutes. Inhaled corticosteroids are controller, not rescue, agents."},
+{s:"A client's peak flow is 300 L/min (personal best 500 L/min). Which medication should the nurse administer first?",o:["Budesonide (inhaled corticosteroid)","Montelukast (leukotriene antagonist)","Albuterol (SABA)","Salmeterol (LABA)"],c:["Albuterol (SABA)"],r:"Peak flow 60% = yellow zone. Albuterol (SABA) is the first-line rescue agent. Inhaled corticosteroids and LABAs are controller medications, not rescue agents."},
+{s:"A client with asthma had nocturnal awakenings twice and peak flow is 65% of personal best. Which zone and priority intervention apply?",o:["Green zone; reinforce controller medication","Yellow zone; SABA and reassess in 15–20 minutes","Red zone; call 911 immediately","Blue zone; begin systemic steroids"],c:["Yellow zone; SABA and reassess in 15–20 minutes"],r:"40–79% of personal best = yellow zone (caution). Priority: SABA + peak flow reassessment in 15–20 minutes. Red zone (<40%) = emergency."}
 ]},
-{group:"PEEP & Hemodynamics in ARDS",qs:[
-{t:"mc",s:"A patient with ARDS has PEEP increased to 14 cm H₂O. Thirty minutes later, BP drops to 86/50 and vasopressor requirements escalate. What is the most likely cause?",o:["Improved alveolar recruitment increased venous return","Decreased preload due to elevated intrathoracic pressure","Acute metabolic alkalosis from over-ventilation","Increased cardiac contractility from better oxygenation"],c:[1],r:"High PEEP increases intrathoracic pressure, compresses the right heart, and decreases venous return (preload), reducing cardiac output and blood pressure. This hemodynamic compromise may require PEEP reduction or vasopressor adjustment."},
-{t:"mc",s:"An ICU nurse is caring for an ARDS patient on PEEP 12 cm H₂O. Which finding is the strongest indication that PEEP may need to be reduced?",o:["PaO₂ 55 mmHg and SaO₂ 88%","Blood pressure 84/46 mmHg","Bilateral bronchial breath sounds","First-degree AV block at rate 58"],c:[1],r:"Hypotension suggests PEEP is impairing venous return and reducing cardiac output — the dominant concern for reducing PEEP. Low PaO₂ would suggest the need to increase PEEP, not reduce it."},
-{t:"mc",s:"After increasing PEEP from 10 to 16 cm H₂O in an ARDS patient, the nurse recognizes which finding as a direct adverse hemodynamic effect?",o:["Increased urine output due to improved renal perfusion","Rising CVP with concurrent hypotension","Warm extremities and bounding peripheral pulses","Decreasing heart rate from improved cardiac output"],c:[1],r:"High PEEP reduces venous return to the right heart. CVP may rise paradoxically (backpressure) while BP falls due to decreased cardiac output. Warm extremities and bradycardia would suggest improved output, not PEEP-induced compromise."}
+{group:"PEEP & Hemodynamics",qs:[
+{s:"ARDS patient has PEEP increased to 14 cm H₂O. BP drops to 86/50 and vasopressor requirements escalate. Most likely cause?",o:["Improved alveolar recruitment increased venous return","Decreased preload from elevated intrathoracic pressure","Acute metabolic alkalosis from over-ventilation","Increased cardiac contractility from better oxygenation"],c:["Decreased preload from elevated intrathoracic pressure"],r:"High PEEP increases intrathoracic pressure → compresses right heart → reduces venous return (preload) → decreased cardiac output → hypotension. Classic PEEP hemodynamic complication."},
+{s:"An ARDS patient is on PEEP 12 cm H₂O. Which finding is the strongest indicator that PEEP may need to be REDUCED?",o:["PaO₂ 55 mmHg and SaO₂ 88%","Blood pressure 84/46 mmHg","Bilateral bronchial breath sounds","First-degree AV block at rate 58"],c:["Blood pressure 84/46 mmHg"],r:"Hypotension signals that PEEP is impairing venous return and reducing cardiac output → may need to reduce PEEP. Low PaO₂/SaO₂ would suggest the need to INCREASE PEEP."},
+{s:"After increasing PEEP from 10 to 16 cm H₂O, which finding represents an adverse hemodynamic effect?",o:["Increased urine output from improved renal perfusion","Rising CVP with concurrent hypotension","Warm extremities and bounding peripheral pulses","Decreasing heart rate from improved cardiac output"],c:["Rising CVP with concurrent hypotension"],r:"High PEEP reduces venous return → CVP may rise paradoxically (backpressure) while BP falls due to decreased cardiac output. This is the key hemodynamic side effect of high PEEP."}
 ]},
 {group:"Heart Failure Teaching",qs:[
-{t:"mc",s:"Which statement by a client with newly diagnosed heart failure indicates effective discharge teaching?",o:["I will call my doctor if I gain more than 2–3 pounds in a day or 5 pounds in a week","I will use my nitroglycerin patch when I feel short of breath","I take my furosemide at bedtime to avoid daytime trips to the bathroom","I sleep with an extra pillow — that fixes my nighttime shortness of breath"],c:[0],r:"Rapid weight gain signals fluid retention requiring provider notification. Nitro is for angina, not dyspnea. Furosemide at bedtime causes nocturia and disrupts sleep. Extra pillows manage symptoms temporarily but don't address the underlying problem."},
-{t:"mc",s:"A nurse reinforces HF teaching on weight monitoring. Which instruction is correct?",o:["Weigh yourself weekly at the same time","Report a weight gain of 2 or more pounds in one day to your provider","Weigh yourself after meals for the most accurate reading","Weight gain of up to 5 pounds daily is expected with heart failure"],c:[1],r:"Clients with HF should weigh daily (morning, before eating, after voiding) and report ≥ 2 lbs/day or ≥ 5 lbs/week gain. These thresholds signal fluid overload requiring medication adjustment."},
-{t:"mc",s:"A 72-year-old with HF calls reporting a 4-pound weight gain since yesterday morning. How should the nurse triage this?",o:["This is within normal daily fluid fluctuation; check again tomorrow","This requires urgent provider notification — it signals acute fluid retention","Instruct the client to restrict fluids and call back in 3 days","Advise the client to take an extra dose of furosemide independently"],c:[1],r:"A 4-pound gain in 24 hours is a red flag for acute decompensation requiring urgent provider notification and likely medication adjustment. Self-medicating with additional diuretics without direction is unsafe."}
+{s:"Which statement by a newly diagnosed heart failure client indicates effective teaching?",o:["I'll call if I gain more than 2–3 lbs in a day or 5 lbs in a week","I'll use my nitroglycerin patch when I feel short of breath","I take furosemide at bedtime to avoid daytime bathroom trips","An extra pillow fixes my nighttime shortness of breath"],c:["I'll call if I gain more than 2–3 lbs in a day or 5 lbs in a week"],r:"Rapid weight gain signals fluid retention → call provider. Nitro is for angina, not dyspnea. Furosemide at bedtime causes nocturia. Extra pillows manage symptoms but don't treat the problem."},
+{s:"Which HF weight monitoring instruction is correct?",o:["Weigh weekly at the same time","Report a weight gain of ≥2 pounds in one day to your provider","Weigh after meals for the most accurate reading","Weight gain of up to 5 lbs daily is expected"],c:["Report a weight gain of ≥2 pounds in one day to your provider"],r:"HF clients should weigh daily (morning, before eating, after voiding) and report ≥2 lbs/day or ≥5 lbs/week — signals of fluid overload requiring medication adjustment."},
+{s:"A 72-year-old HF client calls reporting a 4-lb weight gain since yesterday morning. How should the nurse triage?",o:["Normal daily fluctuation; recheck tomorrow","Urgent provider notification — acute fluid retention","Restrict fluids and call back in 3 days","Take an extra furosemide dose independently"],c:["Urgent provider notification — acute fluid retention"],r:"4 lbs in 24 hours = acute decompensation red flag. Urgent provider contact required. Self-medicating with additional diuretics without direction is unsafe."}
 ]},
 {group:"Palliative vs Hospice",qs:[
-{t:"mc",s:"A client with metastatic lung cancer receiving chemotherapy reports unmanageable pain and fatigue. The client asks about symptom support and future planning. Which referral is most appropriate?",o:["Hospice care","Palliative care","Home health services only","No referral until chemotherapy stops"],c:[1],r:"Palliative care can be provided alongside disease-directed therapy. It addresses symptom burden, goals of care, and quality of life. Hospice requires stopping curative treatment and a prognosis ≤ 6 months."},
-{t:"mc",s:"A client with stage IV colon cancer on immunotherapy has severe pain and anxiety. The oncologist wants to address symptoms while continuing treatment. Which service is most appropriate?",o:["Hospice, because prognosis is poor","Palliative care, concurrent with ongoing treatment","Home health only for IV medication management","Psychiatric consult exclusively for anxiety"],c:[1],r:"Palliative care is appropriate at any illness stage alongside any treatment. Hospice requires ≤ 6-month prognosis AND a decision to stop curative treatment."},
-{t:"mc",s:"Which statement best distinguishes palliative care from hospice?",o:["Palliative care requires a terminal prognosis of ≤ 6 months","Hospice can be provided while a client receives active chemotherapy","Palliative care addresses comfort and quality of life at any disease stage, regardless of treatment status","Hospice and palliative care are interchangeable terms"],c:[2],r:"Palliative care = comfort and quality of life at ANY stage, concurrent with ANY treatment. Hospice = a type of palliative care for clients no longer pursuing curative treatment with ≤ 6-month prognosis."}
+{s:"A client with metastatic lung cancer on chemotherapy reports unmanageable pain and fatigue. Most appropriate referral?",o:["Hospice care","Palliative care","Home health services only","No referral until chemotherapy stops"],c:["Palliative care"],r:"Palliative care can be provided alongside disease-directed therapy at any stage. Hospice requires stopping curative treatment and a prognosis ≤6 months."},
+{s:"A client with stage IV cancer on immunotherapy has severe pain and anxiety. Which service best addresses symptoms while continuing treatment?",o:["Hospice, because prognosis is poor","Palliative care, concurrent with ongoing treatment","Home health for IV medication only","Psychiatry consult exclusively"],c:["Palliative care, concurrent with ongoing treatment"],r:"Palliative care is appropriate at any illness stage alongside any treatment. Hospice requires ≤6-month prognosis AND stopping curative treatment."},
+{s:"Which statement best distinguishes palliative care from hospice?",o:["Palliative care requires a ≤6-month prognosis","Hospice can be provided during active chemotherapy","Palliative care addresses comfort and quality of life at any disease stage regardless of treatment status","Hospice and palliative care are interchangeable terms"],c:["Palliative care addresses comfort and quality of life at any disease stage regardless of treatment status"],r:"Palliative care = comfort at ANY stage with ANY treatment. Hospice = comfort only, no curative treatment, prognosis ≤6 months."}
 ]},
-{group:"Status Asthmaticus – Silent Chest",qs:[
-{t:"mc",s:"A client with status asthmaticus who was previously wheezing loudly now has absent breath sounds bilaterally and a dropping SpO₂. What does this indicate?",o:["Bronchospasm is resolving — the client is improving","Silent chest: critical deterioration requiring immediate intervention","Pneumonia has developed as a complication","The bronchodilator is working and airways are dilating"],c:[1],r:"A silent chest in status asthmaticus is an ominous sign — airways are so severely obstructed that no air moves in or out. This is pre-respiratory arrest and requires immediate intervention, not reassurance."},
-{t:"mc",s:"Which finding in a client with status asthmaticus is the most ominous, requiring the most urgent intervention?",o:["Expiratory wheezing with a prolonged I:E ratio","Accessory muscle use with RR 28","Silent chest with decreasing SpO₂","Tachycardia at HR 108 after albuterol administration"],c:[2],r:"Silent chest = no audible air movement = critical airway obstruction. Tachycardia after albuterol is a common, expected side effect. Wheezing and accessory muscle use indicate moderate distress but are not the most critical finding."},
-{t:"mc",s:"An asthmatic client who was wheezing on arrival is now quiet, less responsive, with faint breath sounds bilaterally. What is the nurse's priority action?",o:["Document that wheezing has resolved and bronchospasm is improving","Immediately notify the provider — this indicates critical airflow obstruction requiring escalation","Administer another bronchodilator treatment and wait 15 minutes","Reduce oxygen flow rate to prevent hyperoxia"],c:[1],r:"Disappearance of wheezing with decreasing mentation = silent chest = clinical deterioration, not improvement. Notify the provider immediately and prepare for intubation."}
+{group:"Silent Chest – Status Asthmaticus",qs:[
+{s:"A status asthmaticus client who was loudly wheezing now has absent bilateral breath sounds and a dropping SpO₂. What does this indicate?",o:["Bronchospasm is resolving — improvement","Silent chest: critical deterioration requiring immediate intervention","Pneumonia has developed","The bronchodilator is working"],c:["Silent chest: critical deterioration requiring immediate intervention"],r:"Silent chest in status asthmaticus = airways so severely obstructed that no air moves in or out. This is pre-respiratory arrest. Immediate intervention required — not reassurance."},
+{s:"Which finding in status asthmaticus is the MOST ominous and requires the most urgent action?",o:["Expiratory wheezing with prolonged I:E ratio","Accessory muscle use with RR 28","Silent chest with decreasing SpO₂","Tachycardia at HR 108 after albuterol"],c:["Silent chest with decreasing SpO₂"],r:"Silent chest = no audible air movement = critical airway obstruction and impending respiratory arrest. Tachycardia after albuterol is a common expected side effect."},
+{s:"An asthmatic client who was wheezing on arrival is now quiet, less responsive, with faint breath sounds. Priority action?",o:["Document that wheezing resolved","Immediately notify provider — critical airflow obstruction","Give another bronchodilator treatment and wait 15 minutes","Reduce oxygen flow to prevent hyperoxia"],c:["Immediately notify provider — critical airflow obstruction"],r:"Disappearance of wheezing + decreasing mentation = silent chest = deterioration, NOT improvement. Notify the provider immediately and prepare for intubation."}
 ]},
 {group:"COPD & Hypoxic Drive",qs:[
-{t:"mc",s:"An end-stage COPD patient with chronic hypercapnia is on 100% O₂ via NRB mask. ABG: pH 7.32, PaCO₂ 68, PaO₂ 54, HCO₃ 30. What complication does the nurse anticipate from high-flow oxygen?",o:["Increased respiratory drive and improved gas exchange","Respiratory depression from suppression of the hypoxic drive","Respiratory alkalosis from excessive CO₂ elimination","Improved oxygenation without CO₂ effect"],c:[1],r:"Chronic COPD patients with CO₂ retention rely on low PaO₂ (hypoxic drive) as the primary respiratory stimulus. High-flow O₂ corrects hypoxemia, removing this drive, risking respiratory depression. Target SpO₂: 88–92%."},
-{t:"mc",s:"When caring for a COPD patient who chronically retains CO₂, the nurse should target which SpO₂ range?",o:["94–98%","88–92%","98–100%","85–88%"],c:[1],r:"Target SpO₂ for COPD with chronic hypercapnia is 88–92%. Higher levels risk suppressing the hypoxic drive; lower levels allow dangerous hypoxemia. This differs from the 94–98% target for most other patients."},
-{t:"mc",s:"A COPD patient with known CO₂ retention is being treated with a high-flow oxygen device. The nurse's priority concern regarding this therapy is:",o:["Oxygen toxicity causing lung damage within hours","Suppression of the hypoxic respiratory drive leading to CO₂ narcosis","Increased mucus production worsening secretion clearance","Barotrauma from increased airway pressure"],c:[1],r:"In chronic CO₂ retainers, the hypoxic drive may be the primary stimulus to breathe. Overcorrecting hypoxemia with high-flow O₂ can suppress this drive and cause respiratory depression. Titrate O₂ to maintain SpO₂ 88–92%."}
+{s:"An end-stage COPD patient with chronic hypercapnia is on 100% O₂ via NRB mask. ABG: pH 7.32, PaCO₂ 68, PaO₂ 54. What complication may result from high-flow oxygen?",o:["Increased respiratory drive and improved gas exchange","Respiratory depression from suppression of the hypoxic drive","Respiratory alkalosis from excessive CO₂ elimination","Improved oxygenation without CO₂ effect"],c:["Respiratory depression from suppression of the hypoxic drive"],r:"Chronic CO₂ retainers rely on low PaO₂ (hypoxic drive) as their primary respiratory stimulus. High-flow O₂ eliminates this drive → respiratory depression. Target SpO₂: 88–92%."},
+{s:"When caring for a COPD patient who chronically retains CO₂, which SpO₂ range should the nurse target?",o:["94–98%","88–92%","98–100%","85–88%"],c:["88–92%"],r:"Target SpO₂ 88–92% in COPD with chronic hypercapnia. Higher levels risk suppressing the hypoxic respiratory drive, causing CO₂ narcosis and respiratory failure."},
+{s:"A COPD patient with CO₂ retention is receiving high-flow oxygen. The nurse's priority concern is:",o:["Oxygen toxicity causing lung damage within hours","Suppression of hypoxic drive leading to CO₂ narcosis","Increased mucus production worsening secretions","Barotrauma from increased airway pressure"],c:["Suppression of hypoxic drive leading to CO₂ narcosis"],r:"In chronic CO₂ retainers, the hypoxic drive may be the primary breathing stimulus. Overcorrecting hypoxemia with high-flow O₂ can suppress this drive → respiratory depression."}
 ]},
-{group:"BiPAP Failure → Intubation",qs:[
-{t:"mc",s:"A COPD patient on BiPAP becomes difficult to arouse. ABG: pH 7.21, PaCO₂ 72, PaO₂ 88 on 40% FiO₂. What is the priority action?",o:["Increase FiO₂ to 100% and reassess in 30 min","Administer a benzodiazepine for agitation","Notify the provider and prepare for intubation","Continue BiPAP and obtain a chest x-ray"],c:[2],r:"BiPAP has failed — deteriorating pH (7.21), rising CO₂, and worsening consciousness indicate impending respiratory arrest. Increasing FiO₂ worsens CO₂ retention. Benzodiazepines suppress respirations. Urgent intubation is required."},
-{t:"mc",s:"A COPD patient on BiPAP for 2 hours shows increasing somnolence. ABG: pH 7.18, PaCO₂ 80. Which response is most appropriate?",o:["Increase BiPAP pressure settings and reassess in 1 hour","Administer naloxone to reverse respiratory depression","Activate rapid response and anticipate emergent intubation","Place the patient prone to improve oxygenation"],c:[2],r:"Worsening pH (7.18) with rising PaCO₂ and altered mental status despite BiPAP = BiPAP failure and impending respiratory arrest. Emergent intubation is the priority. Naloxone is for opioid reversal. Prone is used in ARDS."},
-{t:"mc",s:"Which assessment finding in a COPD patient on BiPAP requires the nurse to immediately notify the provider for escalation of care?",o:["Respiratory rate decreasing from 32 to 22","The patient reports the mask is uncomfortable","Increasing drowsiness with pH 7.20 and PaCO₂ 78","SpO₂ improving from 87% to 92%"],c:[2],r:"Worsening pH with rising CO₂ and increasing drowsiness on BiPAP = therapy failure requiring urgent escalation to intubation. Improving RR and SpO₂ indicate BiPAP is effective."}
+{group:"BiPAP Failure",qs:[
+{s:"A COPD patient on BiPAP becomes difficult to arouse. ABG: pH 7.21, PaCO₂ 72, PaO₂ 88 on 40% FiO₂. Priority action?",o:["Increase FiO₂ to 100% and reassess in 30 min","Administer a benzodiazepine for agitation","Notify provider and prepare for intubation","Continue BiPAP and get a chest x-ray"],c:["Notify provider and prepare for intubation"],r:"BiPAP has failed: pH 7.21 + rising CO₂ + worsening consciousness = impending respiratory arrest. Increasing FiO₂ worsens CO₂ retention. Benzodiazepines suppress respirations further. Urgent intubation required."},
+{s:"A COPD patient on BiPAP for 2 hours shows increasing somnolence. ABG: pH 7.18, PaCO₂ 80. Most appropriate response?",o:["Increase BiPAP pressure and reassess in 1 hour","Administer naloxone to reverse respiratory depression","Activate rapid response and anticipate emergent intubation","Place patient prone to improve oxygenation"],c:["Activate rapid response and anticipate emergent intubation"],r:"Worsening pH (7.18) + rising CO₂ + altered mental status on BiPAP = therapy failure + impending arrest. Naloxone is for opioid reversal. Prone is used in ARDS, not COPD."},
+{s:"Which finding in a COPD patient on BiPAP requires IMMEDIATE provider notification for escalation of care?",o:["RR decreasing from 32 to 22 breaths per minute","Patient reports the mask is uncomfortable","Increasing drowsiness with pH 7.20 and PaCO₂ 78","SpO₂ improving from 87% to 92%"],c:["Increasing drowsiness with pH 7.20 and PaCO₂ 78"],r:"Worsening pH + rising CO₂ + increasing drowsiness on BiPAP = therapy failure → urgent escalation. Improving RR and SpO₂ indicate BiPAP is working — no escalation needed."}
 ]},
-{group:"ABG – Hypercapnic Respiratory Failure",qs:[
-{t:"mc",s:"ABG on a COPD patient: pH 7.28, PaCO₂ 68, PaO₂ 84 on 40% FiO₂, HCO₃ 30. Which best describes this condition?",o:["Metabolic acidosis without respiratory involvement","Acute hypercapnic (Type 2) respiratory failure","Pure hypoxemic (Type 1) respiratory failure","Metabolic alkalosis with respiratory compensation"],c:[1],r:"Low pH + elevated PaCO₂ = respiratory acidosis. Elevated HCO₃ indicates chronic compensation (kidney retained bicarb). Combined: acute-on-chronic hypercapnic (Type 2) respiratory failure — a ventilatory problem, not purely oxygenation."},
-{t:"mc",s:"An ABG shows: pH 7.30, PaCO₂ 72, PaO₂ 58, HCO₃ 28. Which interpretation is correct?",o:["Respiratory alkalosis with metabolic compensation","Combined metabolic and respiratory acidosis requiring sodium bicarb","Acute hypercapnic failure with partially compensated metabolic alkalosis","Normal ABG values for a COPD patient"],c:[2],r:"Low pH (acidosis) + high PaCO₂ (respiratory cause) + elevated HCO₃ (metabolic compensation from chronic CO₂ retention) = acute-on-chronic hypercapnic respiratory failure. Sodium bicarb would not be indicated here."},
-{t:"mc",s:"Which ABG pattern is most consistent with acute-on-chronic hypercapnic respiratory failure in a COPD patient?",o:["pH 7.48, PaCO₂ 28, PaO₂ 95, HCO₃ 20","pH 7.30, PaCO₂ 70, PaO₂ 55, HCO₃ 32","pH 7.38, PaCO₂ 42, PaO₂ 90, HCO₃ 24","pH 7.20, PaCO₂ 18, PaO₂ 85, HCO₃ 10"],c:[1],r:"Option B: acidic pH, elevated CO₂ (respiratory), low O₂, and elevated HCO₃ (chronic renal compensation) is the hallmark of acute-on-chronic Type 2 respiratory failure. Option A = respiratory alkalosis. Option C = normal. Option D = metabolic acidosis."}
+{group:"ABG Interpretation",qs:[
+{s:"COPD patient ABG: pH 7.28, PaCO₂ 68, PaO₂ 84 on 40% FiO₂, HCO₃ 30. Which best describes this condition?",o:["Metabolic acidosis without respiratory involvement","Acute hypercapnic (Type 2) respiratory failure","Pure hypoxemic (Type 1) respiratory failure","Metabolic alkalosis with respiratory compensation"],c:["Acute hypercapnic (Type 2) respiratory failure"],r:"Low pH + elevated PaCO₂ = respiratory acidosis. Elevated HCO₃ = chronic metabolic compensation. Combined = acute-on-chronic hypercapnic (Type 2) respiratory failure."},
+{s:"ABG: pH 7.30, PaCO₂ 72, PaO₂ 58, HCO₃ 28. Which interpretation is correct?",o:["Respiratory alkalosis with metabolic compensation","Combined acidosis requiring sodium bicarbonate","Acute hypercapnic failure with partial metabolic compensation","Normal ABG values for a COPD patient"],c:["Acute hypercapnic failure with partial metabolic compensation"],r:"Low pH (acidosis) + high PaCO₂ (respiratory cause) + elevated HCO₃ (chronic metabolic compensation) = acute-on-chronic hypercapnic respiratory failure."},
+{s:"Which ABG pattern is most consistent with acute-on-chronic hypercapnic respiratory failure in COPD?",o:["pH 7.48, PaCO₂ 28, PaO₂ 95, HCO₃ 20","pH 7.30, PaCO₂ 70, PaO₂ 55, HCO₃ 32","pH 7.38, PaCO₂ 42, PaO₂ 90, HCO₃ 24","pH 7.20, PaCO₂ 18, PaO₂ 85, HCO₃ 10"],c:["pH 7.30, PaCO₂ 70, PaO₂ 55, HCO₃ 32"],r:"Acidic pH + elevated CO₂ (respiratory) + low PaO₂ + elevated HCO₃ (chronic renal compensation) = hallmark of acute-on-chronic Type 2 respiratory failure in COPD."}
 ]},
-{group:"Tracheostomy Obstruction",qs:[
-{t:"mc",s:"A client with a cuffed tracheostomy suddenly becomes anxious, tachycardic, with SpO₂ 85% and coarse sounds from the stoma. The client cannot clear secretions. What is the first action?",o:["Deflate the tracheostomy cuff","Suction the tracheostomy with sterile technique","Call the respiratory therapist","Remove and replace the tracheostomy tube"],c:[1],r:"Coarse sounds + inability to clear secretions + acute hypoxemia = secretion obstruction. Sterile suctioning is the immediate priority. Cuff deflation or tube removal without clearing the obstruction first is dangerous."},
-{t:"mc",s:"A client with a tracheostomy tube has SpO₂ of 83% and thick secretions visible in the tracheostomy. What is the nurse's immediate priority?",o:["Notify the physician and wait for orders","Suction the tracheostomy immediately","Deflate the cuff to allow breathing around the tube","Administer a nebulized bronchodilator"],c:[1],r:"Visible secretions causing acute airway obstruction require immediate suctioning — this is an airway emergency. The nurse should not wait for orders when the cause is identified and the airway is compromised."},
-{t:"mc",s:"A nurse responds to a trach patient alarming on the pulse oximeter (SpO₂ 80%). Coarse sounds are audible from the stoma. Which action is correct?",o:["Apply 100% O₂ via non-rebreather mask","Perform sterile suctioning via the tracheostomy","Call a code and initiate CPR","Change the tracheostomy tube immediately"],c:[1],r:"Sterile suctioning relieves the secretion obstruction causing hypoxemia. A non-rebreather mask cannot bypass a mechanical obstruction in a tracheostomy. CPR is premature. Tube changes should not be the first-line intervention for obstruction."}
+{group:"Tracheostomy Management",qs:[
+{s:"A cuffed tracheostomy client is anxious, tachycardic, SpO₂ 85%, with coarse sounds from the stoma and inability to clear secretions. First action?",o:["Deflate the tracheostomy cuff","Suction the tracheostomy with sterile technique","Call the respiratory therapist","Remove and replace the tracheostomy tube"],c:["Suction the tracheostomy with sterile technique"],r:"Coarse sounds + inability to clear secretions + acute hypoxemia = secretion obstruction. Sterile suctioning is the immediate priority. Removing the tube or deflating the cuff without clearing the obstruction first is dangerous."},
+{s:"A tracheostomy patient has SpO₂ 83% and thick secretions visible in the stoma. Immediate priority?",o:["Notify the physician and wait for orders","Suction the tracheostomy immediately","Deflate the cuff to allow breathing around the tube","Administer a nebulized bronchodilator"],c:["Suction the tracheostomy immediately"],r:"Visible secretions causing acute airway obstruction = immediate suctioning. This is an airway emergency — do not wait for orders when the cause is identified and the airway is compromised."},
+{s:"A trach patient alarms at SpO₂ 80%. Coarse sounds are audible from the stoma. Which action is correct?",o:["Apply 100% O₂ via non-rebreather mask","Perform sterile suctioning via the tracheostomy","Call a code and initiate CPR","Change the tracheostomy tube immediately"],c:["Perform sterile suctioning via the tracheostomy"],r:"Sterile suctioning relieves the secretion obstruction causing hypoxemia. A non-rebreather mask cannot bypass a mechanical obstruction within the tracheostomy tube."}
 ]},
 {group:"RSI Medications",qs:[
-{t:"sata",s:"A patient requires rapid sequence intubation (RSI). Which medications should the nurse prepare for the induction and paralysis phases? (Select all that apply.)",o:["Etomidate (induction agent)","Succinylcholine (depolarizing NMB)","Rocuronium (non-depolarizing NMB)","Naloxone (opioid antagonist)","Pantoprazole (PPI)","Morphine sulfate"],c:[0,1,2],r:"RSI = induction agent (etomidate) + neuromuscular blocker (succinylcholine or rocuronium). Naloxone and pantoprazole are not RSI agents. Morphine may be used post-intubation for sedation but is not part of the RSI sequence."},
-{t:"mc",s:"During RSI preparation, the nurse is asked which medication provides paralysis to facilitate intubation. Which is correct?",o:["Midazolam","Etomidate","Succinylcholine","Fentanyl"],c:[2],r:"Succinylcholine (depolarizing NMB) provides rapid-onset, short-duration paralysis for RSI. Etomidate is the induction agent. Midazolam and fentanyl provide sedation/analgesia, not paralysis."},
-{t:"mc",s:"Which combination of medications is most appropriate for the induction and paralysis phases of RSI?",o:["Propofol and vecuronium","Etomidate and succinylcholine","Midazolam and naloxone","Fentanyl and atropine"],c:[1],r:"Classic RSI combination: etomidate (hemodynamically stable induction agent) + succinylcholine (rapid paralysis) or rocuronium. Propofol can cause hypotension. Vecuronium has slower onset. The other combinations are not standard RSI agents."}
+{s:"During RSI preparation, which medication provides the PARALYSIS component?",o:["Midazolam","Etomidate","Succinylcholine","Fentanyl"],c:["Succinylcholine"],r:"Succinylcholine (depolarizing neuromuscular blocker) provides rapid-onset, short-duration paralysis for RSI. Etomidate is the induction/sedation agent. Midazolam and fentanyl provide sedation/analgesia, not paralysis."},
+{s:"Which combination is most appropriate for the induction and paralysis phases of RSI?",o:["Propofol and vecuronium","Etomidate and succinylcholine","Midazolam and naloxone","Fentanyl and atropine"],c:["Etomidate and succinylcholine"],r:"Classic RSI: etomidate (hemodynamically stable induction agent) + succinylcholine (rapid paralysis) or rocuronium. Propofol can cause hypotension. Vecuronium has a slower onset."},
+{s:"Why is etomidate preferred over propofol for RSI induction in hemodynamically unstable patients?",o:["Etomidate causes more bronchodilation","Etomidate has minimal effect on blood pressure compared to propofol","Etomidate provides longer duration of paralysis","Etomidate eliminates the need for a neuromuscular blocker"],c:["Etomidate has minimal effect on blood pressure compared to propofol"],r:"Etomidate is hemodynamically neutral — minimal BP effect. Propofol causes vasodilation and myocardial depression, making it risky in hemodynamically unstable patients."}
 ]},
-{group:"ETT Placement Confirmation",qs:[
-{t:"sata",s:"After emergent intubation, which findings confirm correct ETT placement? (Select all that apply.)",o:["Positive (yellow) ETCO₂ colorimetric detector change","Bilateral equal breath sounds with symmetrical chest rise","SpO₂ decreasing from 96% to 82% after ventilation","No gurgling over epigastrium on auscultation","CXR shows ETT tip 3–5 cm above carina","Visible condensation in ETT during exhalation"],c:[0,1,3,4,5],r:"Correct placement confirmed by: positive ETCO₂, bilateral breath sounds, no epigastric sounds (rules out esophageal placement), CXR above carina, ETT fogging. SpO₂ decrease after intubation suggests misplacement."},
-{t:"mc",s:"After intubation, the nurse hears gurgling over the epigastrium, breath sounds are absent bilaterally, and ETCO₂ is negative. What has most likely occurred?",o:["Right mainstem intubation","Esophageal intubation","Laryngospasm","Successful tracheal intubation"],c:[1],r:"Epigastric gurgling + absent bilateral breath sounds + negative ETCO₂ = esophageal intubation. Life-threatening emergency: remove ETT immediately, ventilate with BVM, and reattempt."},
-{t:"mc",s:"Which single finding is most reliable in confirming correct ETT placement in the trachea?",o:["Visible chest rise with each breath","Continuous waveform capnography (ETCO₂)","SpO₂ improvement within 30 seconds","Absence of coughing during intubation"],c:[1],r:"Continuous waveform capnography is the gold standard for ETT placement confirmation. Chest rise can be misleading. SpO₂ improvement may be delayed and transient even with esophageal placement."}
+{group:"ETT Placement",qs:[
+{s:"After intubation, the nurse hears gurgling over the epigastrium, breath sounds absent bilaterally, and ETCO₂ is negative. What has most likely occurred?",o:["Right mainstem intubation","Esophageal intubation","Laryngospasm","Successful tracheal intubation"],c:["Esophageal intubation"],r:"Epigastric gurgling + absent bilateral breath sounds + negative ETCO₂ = esophageal intubation. LIFE-THREATENING: Remove ETT immediately, ventilate with BVM at 100% O₂, then reattempt."},
+{s:"Which single finding is MOST reliable in confirming correct ETT placement in the trachea?",o:["Visible chest rise with each breath","Continuous waveform capnography (ETCO₂)","SpO₂ improvement within 30 seconds","Absence of coughing during intubation"],c:["Continuous waveform capnography (ETCO₂)"],r:"Continuous waveform capnography is the gold standard for ETT placement confirmation. Chest rise can be misleading. SpO₂ improvement may be delayed and can occur transiently with esophageal placement."},
+{s:"After intubation, SpO₂ is 89%, breath sounds absent on the left, clear on the right, and ETCO₂ waveform is positive. Most likely problem?",o:["Esophageal intubation","Right mainstem bronchus intubation","Left-sided pneumothorax","Laryngospasm"],c:["Right mainstem bronchus intubation"],r:"Absent left + present right breath sounds + positive ETCO₂ = right mainstem intubation (ETT advanced past the carina). Withdraw ETT 1–2 cm and reassess bilateral breath sounds."}
 ]},
-{group:"Acute Decompensated Heart Failure",qs:[
-{t:"mc",s:"A 72-year-old with HF has SpO₂ 88%, BNP 1,200 pg/mL, LVEF 28%, and pulmonary edema on CXR. Which interpretation is most accurate?",o:["Findings reflect improved cardiac output with effective diuresis","Results are consistent with decompensated HFrEF requiring urgent treatment","Labs are normal for age; no immediate action needed","Hyponatremia alone explains the dyspnea"],c:[1],r:"LVEF 28% (severely reduced) + elevated BNP + pulmonary edema + hypoxemia = decompensated HFrEF requiring urgent intervention. BNP > 500 is strongly associated with acute decompensated HF."},
-{t:"mc",s:"A client with HF has bibasilar crackles, 2+ ankle edema, orthopnea, HR 112, and SpO₂ 90%. Which finding most strongly supports acute decompensation?",o:["Clear lungs with brisk capillary refill","Bibasilar crackles with bilateral ankle edema","Dry mucous membranes and flat neck veins","Bounding pulses with warm, flushed skin"],c:[1],r:"Bibasilar crackles (pulmonary edema from left HF) + dependent edema (right HF) are the hallmark signs of decompensated heart failure. Dry mucous membranes and flat veins suggest hypovolemia, not HF."},
-{t:"mc",s:"A client with HF reports 4 lbs gained since yesterday and presents with worsening dyspnea requiring 3 pillows to sleep. Which lab result most strongly confirms decompensated HF?",o:["Troponin I 0.04 ng/mL","NT-proBNP 4,800 pg/mL","Potassium 3.2 mEq/L","Creatinine 1.4 mg/dL"],c:[1],r:"Markedly elevated NT-proBNP (normal < 300 pg/mL) is highly specific for acute HF decompensation and reflects ventricular wall stress from volume overload. Troponin elevation would suggest an ACS trigger. Electrolytes and creatinine are non-specific."}
+{group:"Acute Decompensated HF",qs:[
+{s:"A 72-year-old with HF: SpO₂ 88%, BNP 1,200 pg/mL, LVEF 28%, pulmonary edema on CXR. Most accurate interpretation?",o:["Findings reflect improved cardiac output","Consistent with decompensated HFrEF requiring urgent treatment","Labs are normal for age; no action needed","Hyponatremia alone explains the dyspnea"],c:["Consistent with decompensated HFrEF requiring urgent treatment"],r:"LVEF 28% + elevated BNP + pulmonary edema + hypoxemia = decompensated HFrEF. BNP >500 is strongly associated with acute decompensated HF requiring urgent intervention."},
+{s:"A client with HF has bibasilar crackles, 2+ ankle edema, orthopnea, HR 112, and SpO₂ 90%. Which finding most strongly supports acute decompensation?",o:["Clear lungs with brisk capillary refill","Bibasilar crackles with bilateral ankle edema","Dry mucous membranes and flat neck veins","Bounding pulses with warm flushed skin"],c:["Bibasilar crackles with bilateral ankle edema"],r:"Bibasilar crackles (pulmonary edema from left HF) + dependent edema (right HF) are the hallmark signs of decompensated heart failure. The other options suggest hypovolemia or distributive shock."},
+{s:"A client with HF gained 4 lbs since yesterday and needs 3 pillows to sleep. Which lab result most strongly confirms decompensated HF?",o:["Troponin I 0.04 ng/mL","NT-proBNP 4,800 pg/mL","Potassium 3.2 mEq/L","Creatinine 1.4 mg/dL"],c:["NT-proBNP 4,800 pg/mL"],r:"Markedly elevated NT-proBNP is highly specific for acute HF decompensation, reflecting ventricular wall stress from volume overload. It distinguishes HF dyspnea from pulmonary or other causes."}
 ]},
 {group:"HCM & Sudden Cardiac Death",qs:[
-{t:"mc",s:"A 22-year-old athlete with newly diagnosed HCM asks about sudden cardiac death risk. Which response is most appropriate?",o:["HCM increases SCD risk, especially with exertion — avoid competitive athletics and follow up with cardiology","SCD is rare in HCM and usually affects only older adults","A permanent pacemaker will prevent sudden cardiac death in HCM","Nitroglycerin before workouts lowers your arrhythmia risk"],c:[0],r:"HCM is the leading cause of SCD in young athletes. Dynamic LVOT obstruction and ventricular arrhythmias triggered by exertion drive this risk. Competitive athletics must be restricted and cardiology follow-up with possible ICD is essential."},
-{t:"mc",s:"A young athlete with HCM asks about returning to competitive sports. Which response is most accurate?",o:["Competitive athletics are safe with proper warm-up","Avoid competitive athletics and pursue cardiology risk stratification","A pacemaker eliminates the risk of sudden cardiac death","Nitroglycerin before exercise will prevent arrhythmias"],c:[1],r:"HCM patients are typically restricted from competitive athletics due to SCD risk from dynamic LVOT obstruction and exercise-triggered arrhythmias. Cardiology evaluation for risk stratification and possible ICD placement is standard."},
-{t:"mc",s:"The HCM murmur is best described by which characteristic?",o:["Diastolic murmur at the right sternal border","Increases with squatting, decreases with standing","Increases with standing/Valsalva (decreased preload), decreases with squatting","Holosystolic murmur unchanged by position"],c:[2],r:"HCM murmur increases with maneuvers that decrease preload (standing, Valsalva) — which worsens dynamic LVOT obstruction. It decreases with squatting (increased preload). This is the opposite pattern of most other cardiac murmurs."}
+{s:"A 22-year-old athlete with newly diagnosed HCM asks about sudden cardiac death (SCD) risk. Which response is most appropriate?",o:["HCM increases SCD risk especially with exertion — avoid competitive athletics and follow up with cardiology","SCD is rare in HCM and usually affects only older adults","A pacemaker will prevent sudden cardiac death","Nitroglycerin before workouts lowers arrhythmia risk"],c:["HCM increases SCD risk especially with exertion — avoid competitive athletics and follow up with cardiology"],r:"HCM is the leading cause of SCD in young athletes. Dynamic LVOT obstruction and ventricular arrhythmias triggered by exertion drive this risk. Competitive athletics must be restricted pending cardiology evaluation."},
+{s:"A young athlete with HCM asks about returning to competitive sports. Which response is most accurate?",o:["Competitive athletics are safe with proper warm-up","Avoid competitive athletics and pursue cardiology risk stratification","A pacemaker eliminates SCD risk in HCM","Nitroglycerin before exercise will prevent arrhythmias"],c:["Avoid competitive athletics and pursue cardiology risk stratification"],r:"HCM patients are restricted from competitive athletics due to SCD risk from dynamic LVOT obstruction and exercise-triggered ventricular arrhythmias. Risk stratification ± ICD via cardiology is required."},
+{s:"How does the HCM murmur respond to the Valsalva maneuver?",o:["Decreases in intensity","Increases in intensity","Is unchanged","Disappears completely"],c:["Increases in intensity"],r:"The HCM murmur increases with Valsalva (and standing) because decreased preload worsens dynamic LVOT obstruction. It decreases with squatting (increased preload). This is the opposite of most cardiac murmurs."}
 ]},
 {group:"VAP Prevention Bundle",qs:[
-{t:"sata",s:"A client is on day 3 of mechanical ventilation. Which interventions are part of the evidence-based VAP prevention bundle? (Select all that apply.)",o:["Elevate head of bed 30–45 degrees","Perform oral care with chlorhexidine","Change ventilator tubing every 12 hours","Perform daily sedation interruption and assess extubation readiness","Suction ETT on a rigid scheduled basis regardless of need","Maintain subglottic secretion drainage if available"],c:[0,1,3,5],r:"VAP bundle: HOB elevation, chlorhexidine oral care, daily sedation vacation with extubation assessment, and subglottic drainage. Routine circuit changes every 12 hours are NOT recommended. Scheduled (vs. as-needed) suctioning is not evidence-based for VAP prevention."},
-{t:"mc",s:"Which action is NOT part of the evidence-based VAP prevention bundle?",o:["Elevating HOB to 30–45 degrees","Performing daily sedation vacations","Changing ventilator circuit tubing every 12 hours","Providing oral care with chlorhexidine"],c:[2],r:"Routine ventilator circuit changes every 12 hours are not recommended and may increase VAP risk. Circuits should only be changed when visibly contaminated. The other three are core VAP bundle components."},
-{t:"mc",s:"An ICU nurse observes a colleague changing the ventilator circuit every 12 hours as part of a VAP protocol. Which response by the charge nurse is appropriate?",o:["Correct — this is evidence-based practice for VAP prevention","This is unnecessary; circuits should only be changed when visibly soiled or per manufacturer recommendation","This is fine, but HOB should be elevated first","The nurse should also suction on a fixed schedule to reduce VAP"],c:[1],r:"Routine scheduled ventilator circuit changes are NOT evidence-based and may actually increase VAP risk. Circuit changes are indicated only when visibly contaminated or when manufacturer guidance requires it."}
+{s:"Which action is NOT part of the evidence-based VAP prevention bundle?",o:["Elevating HOB to 30–45 degrees","Performing daily sedation vacations","Changing ventilator circuit tubing every 12 hours","Providing oral care with chlorhexidine"],c:["Changing ventilator circuit tubing every 12 hours"],r:"Routine circuit changes every 12 hours are NOT evidence-based and may INCREASE VAP risk. Circuits should only be changed when visibly contaminated. The other three are core VAP bundle components."},
+{s:"Which VAP bundle intervention is most directly aimed at reducing aspiration of subglottic secretions?",o:["Daily sedation interruption","HOB elevation to 30–45 degrees","Subglottic secretion drainage","Chlorhexidine oral care"],c:["Subglottic secretion drainage"],r:"Subglottic secretion drainage (continuous or intermittent) prevents the pooling and aspiration of secretions that accumulate above the ETT cuff — a primary mechanism of VAP."},
+{s:"An ICU nurse observes a colleague changing the ventilator circuit every 12 hours. The correct charge nurse response is:",o:["Correct — this is evidence-based VAP prevention","Unnecessary; circuits should only be changed when visibly soiled","Fine, but HOB should be elevated first","The nurse should also suction on a fixed schedule"],c:["Unnecessary; circuits should only be changed when visibly soiled"],r:"Scheduled ventilator circuit changes are NOT evidence-based. They may actually increase VAP risk by introducing microorganisms. Change circuits only when visibly contaminated."}
 ]},
 {group:"Ventilator Alarms",qs:[
-{t:"mc",s:"A high-pressure alarm sounds while repositioning a mechanically ventilated client. SpO₂ is 95%, client is calm, breath sounds are clear, and kinked tubing is visible under the bed rail. What is the priority action?",o:["Straighten the ventilator tubing","Suction the endotracheal tube","Assess for patient biting on the ETT","Disconnect and manually ventilate with BVM"],c:[0],r:"High-pressure alarm + identified mechanical cause (kinked tubing) = straighten the tubing first. The client's stable SpO₂ and clear breath sounds confirm no acute airway problem. Manual ventilation is unnecessary when the cause is simple and identified."},
-{t:"mc",s:"A low-pressure alarm activates during repositioning. Exhaled tidal volume drops to near zero and peak airway pressure drops significantly. The tubing is stretched tightly across the bed rail. What is the first action?",o:["Sweep the circuit and reconnect any disconnection","Increase FiO₂ to 100%","Inflate the ETT cuff to stop a leak","Suction the ETT for secretions"],c:[0],r:"Low-pressure alarm + near-zero exhaled volume + stretched tubing = circuit disconnection. First action: sweep the circuit from patient to machine and reconnect. Suctioning and FiO₂ changes don't address a disconnect."},
-{t:"mc",s:"Which clinical scenario is most likely to trigger a high-pressure alarm in a mechanically ventilated patient?",o:["Cuff deflation or circuit disconnection","Patient biting the ETT, secretion buildup, or kinked tubing","Spontaneous breathing attempts exceeding the set rate","ETT displaced above the vocal cords"],c:[1],r:"High-pressure alarms indicate increased resistance: patient biting ETT, mucus plugging, kinked tubing, or severe bronchospasm. Low-pressure alarms indicate loss of circuit integrity (disconnection, cuff leak, or accidental extubation)."}
+{s:"High-pressure alarm sounds during repositioning. SpO₂ 95%, client calm, breath sounds clear, kinked tubing visible under the bed rail. Priority action?",o:["Straighten the ventilator tubing","Suction the ETT","Assess for patient biting on the ETT","Disconnect and manually ventilate with BVM"],c:["Straighten the ventilator tubing"],r:"High-pressure alarm + identified mechanical cause (kinked tubing) → straighten the tubing first. Stable SpO₂ and clear breath sounds confirm no acute airway problem. BVM is unnecessary when cause is simple and identified."},
+{s:"Low-pressure alarm activates during repositioning. Exhaled tidal volume drops to near zero, peak airway pressure drops. Tubing stretched tightly across the bed rail. First action?",o:["Sweep the circuit and reconnect any disconnection","Increase FiO₂ to 100%","Inflate the ETT cuff to stop a suspected leak","Suction the ETT for secretions"],c:["Sweep the circuit and reconnect any disconnection"],r:"Low-pressure alarm + near-zero exhaled volume + stretched tubing = circuit disconnection. First: sweep the circuit from patient to ventilator and reconnect the disconnection to restore ventilation."},
+{s:"Which situation is most likely to trigger a HIGH-pressure alarm in a mechanically ventilated patient?",o:["Cuff deflation or circuit disconnection","Patient biting ETT, secretion buildup, or kinked tubing","Spontaneous breathing exceeding the set rate","ETT displaced above the vocal cords"],c:["Patient biting ETT, secretion buildup, or kinked tubing"],r:"High-pressure alarms = increased resistance to airflow: biting ETT, mucus plugging, kinked tubing, or severe bronchospasm. Low-pressure alarms = loss of circuit integrity (disconnection, cuff leak)."}
 ]},
-{group:"Brain Death Criteria",qs:[
-{t:"sata",s:"A 45-year-old TBI patient is being evaluated for brain death. Which findings confirm brain death? (Select all that apply.)",o:["Absent corneal and pupillary light reflexes","Decerebrate posturing in response to pain","Apnea despite adequate CO₂ stimulation during apnea test","Presence of deep tendon reflexes","No oculocephalic or oculovestibular responses","No spontaneous breathing with PaCO₂ > 60 mmHg"],c:[0,2,4,5],r:"Brain death requires: absent brainstem reflexes (corneal, pupillary, oculocephalic, oculovestibular), apnea with PaCO₂ > 60 mmHg, and coma. Decerebrate posturing indicates residual brainstem activity. Deep tendon reflexes are spinal cord-mediated and may persist in brain death."},
-{t:"mc",s:"During a brain death evaluation, which finding is INCONSISTENT with brain death?",o:["No pupillary response to light bilaterally","No doll's eye movement with head turn","Decerebrate posturing in response to painful stimuli","Apnea with PaCO₂ rising to 65 mmHg during apnea test"],c:[2],r:"Decerebrate posturing requires intact brainstem activity and is inconsistent with brain death. Brain death requires the complete absence of all brainstem reflexes. Spinal cord reflexes (deep tendon reflexes, Babinski) may still be present and do not rule out brain death."},
-{t:"mc",s:"A family asks what the apnea test determines during brain death evaluation. Which response is most accurate?",o:["It measures whether the heart can maintain rhythm without brain input","It determines if the brain can initiate a breath when CO₂ rises to threshold","It confirms absent electrical brain activity on EEG","It checks for oculovestibular reflexes using ice water"],c:[1],r:"The apnea test assesses brainstem respiratory drive. The ventilator is disconnected while O₂ is supplied. If no spontaneous breaths occur when PaCO₂ ≥ 60 mmHg, respiratory drive is absent — confirming this brain death criterion."}
+{group:"Brain Death",qs:[
+{s:"During a brain death evaluation, which finding is INCONSISTENT with brain death?",o:["No pupillary response to light bilaterally","No doll's eyes movement with head turn","Decerebrate posturing in response to painful stimuli","Apnea with PaCO₂ rising to 65 mmHg during apnea test"],c:["Decerebrate posturing in response to painful stimuli"],r:"Decerebrate posturing requires intact brainstem activity — INCONSISTENT with brain death. Brain death requires complete absence of ALL brainstem reflexes. Deep tendon reflexes (spinal cord–mediated) may persist."},
+{s:"A family asks what the apnea test determines. Most accurate response?",o:["It measures whether the heart can maintain rhythm without brain input","It determines if the brain initiates a breath when CO₂ rises to threshold","It confirms absent electrical brain activity on EEG","It checks oculovestibular reflexes using ice water"],c:["It determines if the brain initiates a breath when CO₂ rises to threshold"],r:"The apnea test assesses brainstem respiratory drive. The ventilator is disconnected; if no spontaneous breaths occur when PaCO₂ ≥60 mmHg, respiratory drive is absent — confirming this brain death criterion."},
+{s:"Which finding CONFIRMS brain death?",o:["Decerebrate posturing to painful stimuli","Absent corneal and pupillary reflexes bilaterally","Presence of deep tendon reflexes","Spontaneous eye movements"],c:["Absent corneal and pupillary reflexes bilaterally"],r:"Brain death requires absent brainstem reflexes including absent corneal and pupillary reflexes. Decerebrate posturing indicates brainstem activity. Deep tendon and spinal reflexes may persist in brain death."}
 ]},
 {group:"Decreased Cardiac Output",qs:[
-{t:"mc",s:"A client with decompensated HF has cool mottled extremities, weak pulses, delayed capillary refill, and decreased urine output. Which additional finding is most consistent with decreased cardiac output?",o:["Bounding pulses and hypertension","Warm flushed skin and increased urine output","Confusion, cool extremities, and weak pulses","Bradycardia and elevated CVP"],c:[2],r:"Decreased CO causes tissue hypoperfusion: cool extremities, weak pulses, confusion (decreased cerebral perfusion), and oliguria. Bounding pulses and warm skin suggest a hyperdynamic state (distributive shock), not low output."},
-{t:"mc",s:"A client with dilated cardiomyopathy has BP 90/60, HR 118, cool pale extremities, and UO 15 mL/hr. Which additional finding most supports cardiogenic shock?",o:["SpO₂ 98% on room air with warm extremities","Altered mental status and narrowing pulse pressure","Systolic BP 130 with strong peripheral pulses","Urine output of 60 mL/hour"],c:[1],r:"Cardiogenic shock: hypotension, altered mental status, cool extremities, oliguria, and narrowing pulse pressure (small SBP–DBP gap reflecting poor stroke volume). A narrowing pulse pressure is a key hemodynamic indicator."},
-{t:"mc",s:"Post-MI vital signs: BP 84/52, HR 124, RR 26, SpO₂ 88%. The nurse also notes cool clammy skin and decreased urine output. These findings are most consistent with which condition?",o:["Hypertensive emergency","Cardiogenic shock from decreased cardiac output","Volume depletion from hemorrhage","Distributive shock from sepsis"],c:[1],r:"Post-MI hypotension + cool clammy skin + tachycardia + oliguria = cardiogenic shock (pump failure). Sepsis typically presents with warm flushed skin initially. Hemorrhage would involve visible blood loss. Hypertensive emergency presents with elevated, not low, BP."}
+{s:"A client with decompensated HF has cool extremities, weak pulses, delayed capillary refill, and decreased urine output. Which additional finding is most consistent with decreased cardiac output?",o:["Bounding pulses and hypertension","Warm flushed skin and increased urine output","Confusion, cool extremities, and weak pulses","Bradycardia and elevated CVP"],c:["Confusion, cool extremities, and weak pulses"],r:"Decreased CO = tissue hypoperfusion: cool extremities, weak pulses, confusion (cerebral hypoperfusion), and oliguria. Bounding pulses and warm skin suggest hyperdynamic state (distributive shock), not low output."},
+{s:"Post-MI vitals: BP 84/52, HR 124, SpO₂ 88%, cool clammy skin, decreased urine output. Most consistent condition?",o:["Hypertensive emergency","Cardiogenic shock from decreased cardiac output","Volume depletion from hemorrhage","Distributive shock from sepsis"],c:["Cardiogenic shock from decreased cardiac output"],r:"Post-MI hypotension + cool clammy skin + tachycardia + oliguria = cardiogenic shock (pump failure). Sepsis typically presents with warm flushed skin initially. Hemorrhage would involve evident blood loss."},
+{s:"A client with dilated cardiomyopathy has BP 90/60, HR 118, cool pale extremities, and UO 15 mL/hr. Which additional finding most supports cardiogenic shock?",o:["SpO₂ 98% with warm extremities","Altered mental status and narrowing pulse pressure","Systolic BP 130 with strong peripheral pulses","Urine output 60 mL/hour"],c:["Altered mental status and narrowing pulse pressure"],r:"Cardiogenic shock hallmarks: hypotension + altered mental status (cerebral hypoperfusion) + cool extremities + oliguria + narrowing pulse pressure (small SBP-DBP gap = poor stroke volume)."}
 ]},
 {group:"Cardiomyopathy Types",qs:[
-{t:"mc",s:"Which description best distinguishes hypertrophic cardiomyopathy (HCM) from dilated cardiomyopathy (DCM)?",o:["HCM = progressive ventricular dilation with low ejection fraction","HCM = asymmetric septal hypertrophy with dynamic LVOT obstruction and exertional syncope","HCM = noncompliant ventricles with preserved EF","HCM = fibrofatty myocardial replacement causing ventricular arrhythmias"],c:[1],r:"HCM = asymmetric septal hypertrophy + dynamic LVOT obstruction + SCD risk/exertional syncope. DCM = dilated ventricles + low EF. Restrictive CM = stiff ventricles + preserved EF. ARVC = fibrofatty replacement + arrhythmias."},
-{t:"mc",s:"A client has noncompliant ventricles with preserved ejection fraction and prominent right-sided congestion. Which cardiomyopathy does this describe?",o:["Dilated cardiomyopathy","Hypertrophic cardiomyopathy","Restrictive cardiomyopathy","Arrhythmogenic right ventricular cardiomyopathy (ARVC)"],c:[2],r:"Restrictive cardiomyopathy: stiff ventricles, diastolic failure, preserved EF, right-sided congestion predominates (ascites, edema, elevated JVP). Causes include amyloidosis and sarcoidosis."},
-{t:"mc",s:"A 28-year-old athlete survives a cardiac arrest. Cardiac workup reveals fibrofatty replacement of the right ventricular myocardium. Which cardiomyopathy is most consistent?",o:["Hypertrophic cardiomyopathy (HCM)","Dilated cardiomyopathy (DCM)","Arrhythmogenic right ventricular cardiomyopathy (ARVC)","Restrictive cardiomyopathy"],c:[2],r:"ARVC = fibrofatty replacement of RV myocardium + ventricular arrhythmias + SCD risk in young athletes. It is one of the leading causes of SCD in athletes under 35."}
+{s:"Which description best distinguishes HCM from dilated cardiomyopathy (DCM)?",o:["HCM = ventricular dilation with low EF","HCM = asymmetric septal hypertrophy with dynamic LVOT obstruction and exertional syncope","HCM = noncompliant ventricles with preserved EF","HCM = fibrofatty myocardial replacement"],c:["HCM = asymmetric septal hypertrophy with dynamic LVOT obstruction and exertional syncope"],r:"HCM = septal hypertrophy + LVOT obstruction + SCD risk. DCM = dilated ventricles + low EF. Restrictive CM = stiff ventricles + preserved EF. ARVC = fibrofatty RV replacement."},
+{s:"A client has noncompliant ventricles, preserved ejection fraction, and prominent right-sided congestion (ascites, elevated JVP). Which cardiomyopathy?",o:["Dilated cardiomyopathy","Hypertrophic cardiomyopathy","Restrictive cardiomyopathy","ARVC"],c:["Restrictive cardiomyopathy"],r:"Restrictive cardiomyopathy: stiff, noncompliant ventricles → diastolic failure → preserved EF + right-sided congestion. Causes include amyloidosis and sarcoidosis."},
+{s:"A 28-year-old athlete is resuscitated from cardiac arrest. Workup reveals fibrofatty replacement of the right ventricular myocardium. Which cardiomyopathy?",o:["HCM","Dilated cardiomyopathy","ARVC","Restrictive cardiomyopathy"],c:["ARVC"],r:"ARVC (Arrhythmogenic Right Ventricular Cardiomyopathy) = fibrofatty replacement of RV myocardium → ventricular arrhythmias → SCD risk, especially in young athletes."}
 ]},
 {group:"PAD vs CVI",qs:[
-{t:"mc",s:"Which combination of findings most strongly distinguishes peripheral arterial disease (PAD) from chronic venous insufficiency (CVI)?",o:["Intermittent claudication, pallor on leg elevation, and weak/absent pulses","Swelling, brown ankle discoloration, and venous ulcers near medial malleolus","Burning calf pain worsening with walking and relieved by rest","Redness and warmth with bounding pulses"],c:[0],r:"PAD: intermittent claudication, pallor on elevation (arterial insufficiency), absent/weak pulses. CVI: edema, hyperpigmentation, venous ulcers near medial malleolus, normal pulses. Both share exertional pain but differ significantly in exam findings."},
-{t:"mc",s:"Which assessment finding is most associated with CVI rather than PAD?",o:["Absent dorsalis pedis pulses bilaterally","Pain relieved by dangling legs off the bed","Pitting edema worsening throughout the day, improving with elevation","Claudication at 50 yards of walking"],c:[2],r:"Dependent edema worse with prolonged standing and improved with elevation is classic CVI (venous pooling). PAD clients get relief by dangling legs (gravity increases arterial flow). Claudication and absent pulses are PAD features."},
-{t:"mc",s:"A client has a shallow ulcer near the medial malleolus with brownish skin discoloration and moderate drainage. Peripheral pulses are 2+. These findings are most consistent with:",o:["Peripheral arterial disease with arterial ulceration","Chronic venous insufficiency with venous stasis ulcer","Diabetic neuropathic ulcer","Acute deep vein thrombosis"],c:[1],r:"Venous stasis ulcers: medial malleolus location, shallow/irregular, wet/draining, hyperpigmented surrounding skin, intact pulses. Arterial ulcers: punched-out, dry, painful, toes/distal foot, absent pulses."}
+{s:"Which combination most strongly distinguishes PAD from CVI?",o:["Intermittent claudication, pallor on leg elevation, and weak/absent pulses","Swelling, brown ankle discoloration, and venous ulcers near medial malleolus","Burning calf pain worsening with walking and relieved by rest","Redness and warmth with bounding pulses"],c:["Intermittent claudication, pallor on leg elevation, and weak/absent pulses"],r:"PAD: claudication, pallor on leg elevation (arterial insufficiency), absent/weak pulses. CVI: edema, hyperpigmentation, venous ulcers near medial malleolus, normal pulses."},
+{s:"Which finding is most associated with CVI rather than PAD?",o:["Absent dorsalis pedis pulses","Pain relieved by dangling legs off the bed","Pitting edema worsening throughout the day and improving with elevation","Claudication at 50 yards of walking"],c:["Pitting edema worsening throughout the day and improving with elevation"],r:"Dependent edema worsening with prolonged standing and improving with elevation = classic CVI. PAD: pain relieved by dangling (gravity increases arterial flow), absent pulses, claudication."},
+{s:"A client has a shallow ulcer near the medial malleolus with brownish skin discoloration, moderate drainage, and intact 2+ peripheral pulses. Most consistent diagnosis?",o:["PAD with arterial ulceration","CVI with venous stasis ulcer","Diabetic neuropathic ulcer","Acute deep vein thrombosis"],c:["CVI with venous stasis ulcer"],r:"Venous stasis ulcers: medial malleolus location, shallow/irregular, wet/draining, hyperpigmented skin, INTACT pulses. Arterial ulcers: punched-out, dry, painful, toes/distal foot, ABSENT pulses."}
 ]},
 {group:"Critical Limb Ischemia",qs:[
-{t:"mc",s:"A client with PAD presents with sudden rest pain, pale cool foot, and diminished pedal pulses. The vascular team diagnoses acute critical limb ischemia. Which intervention is the priority?",o:["Initiate IV unfractionated heparin per protocol","Elevate the affected limb above heart level","Apply intermittent pneumatic compression","Begin active range-of-motion exercises"],c:[0],r:"Acute limb ischemia is a vascular emergency. IV heparin prevents clot propagation while revascularization is planned. Leg elevation reduces arterial perfusion — keep the limb flat or slightly dependent. Compression and ROM are contraindicated."},
-{t:"mc",s:"A client presents with the 6 P's of acute arterial occlusion in the right foot. Which immediate nursing action is most appropriate?",o:["Elevate the right leg to reduce edema","Notify the vascular team and prepare for IV heparin anticoagulation","Apply a warm compress to improve circulation","Begin compression therapy to the right lower extremity"],c:[1],r:"6 P's (pain, pallor, pulselessness, paresthesias, paralysis, poikilothermia) = acute arterial occlusion requiring immediate vascular consult and anticoagulation. Elevation, heat, and compression are all contraindicated in arterial occlusion."},
-{t:"mc",s:"Which nursing intervention is contraindicated for a client with suspected acute arterial limb ischemia?",o:["Keeping the affected limb flat or slightly dependent","Elevating the limb above heart level","Preparing for IV heparin infusion","Protecting the limb from pressure and injury"],c:[1],r:"Elevation is contraindicated — gravity is needed to maintain the already-compromised arterial flow. Elevation worsens ischemia. The limb should remain flat or slightly dependent. Direct heat is also avoided due to burn risk in an ischemic limb."}
-]},
-{group:"Right Mainstem Intubation",qs:[
-{t:"mc",s:"After intubation, SpO₂ is 89%, breath sounds are absent on the left and present on the right, and capnography waveform is present. What is the most likely problem and first action?",o:["Esophageal intubation; remove the ETT immediately","Right mainstem intubation; withdraw ETT 1–2 cm while monitoring breath sounds","Left pneumothorax; prepare for needle decompression","Laryngospasm; administer succinylcholine"],c:[1],r:"Absent left + present right breath sounds + positive ETCO₂ = right mainstem bronchus intubation (ETT too deep, past carina). Withdraw the ETT 1–2 cm and reassess bilateral breath sounds. ETCO₂ rules out esophageal placement."},
-{t:"mc",s:"A newly intubated client has breath sounds absent on the left, clear on the right, and the ETT is secured at 25 cm at the lip. ETCO₂ is positive. What should the nurse do?",o:["Obtain a stat CXR and wait for results before making any changes","Withdraw the ETT toward the 21–23 cm mark and reassess bilateral breath sounds","Increase FiO₂ to 100% to compensate","Replace the ETT with a larger size"],c:[1],r:"ETT secured at 25 cm with unilateral breath sounds = right mainstem intubation. Normal adult depth is 21–23 cm at the lip. The correct action is to withdraw slightly and confirm bilateral breath sounds before obtaining CXR."},
-{t:"mc",s:"Which finding best distinguishes right mainstem bronchus intubation from esophageal intubation?",o:["Bilateral absent breath sounds and absent ETCO₂","Gurgling heard over the epigastrium","Unilateral (right-sided) breath sounds with a positive ETCO₂ waveform","SpO₂ dropping to 60% within 30 seconds of ventilation"],c:[2],r:"Right mainstem: ETT in trachea (positive ETCO₂) but past carina — unilateral breath sounds. Esophageal: absent/negative ETCO₂, epigastric gurgling. Both cause hypoxemia, but ETCO₂ and the pattern of breath sounds differentiate them."}
+{s:"A client with PAD presents with sudden rest pain, pale cool foot, and diminished pedal pulses. Diagnosis: acute critical limb ischemia. Priority intervention?",o:["Initiate IV unfractionated heparin per protocol","Elevate the affected limb above heart level","Apply intermittent pneumatic compression","Begin active range-of-motion exercises"],c:["Initiate IV unfractionated heparin per protocol"],r:"Acute limb ischemia = vascular emergency. IV heparin prevents clot propagation while the limb is assessed for revascularization. Leg elevation REDUCES arterial perfusion — keep limb flat or slightly dependent. Compression and ROM are contraindicated."},
+{s:"A client presents with the 6 P's of acute arterial occlusion in the right foot. Immediate priority action?",o:["Elevate the right leg to reduce edema","Notify vascular team and prepare for IV heparin","Apply a warm compress to improve circulation","Begin compression therapy"],c:["Notify vascular team and prepare for IV heparin"],r:"6 P's (pain, pallor, pulselessness, paresthesias, paralysis, poikilothermia) = acute arterial occlusion → immediate vascular consult + anticoagulation. Elevation, heat, and compression are ALL contraindicated."},
+{s:"Which nursing intervention is CONTRAINDICATED in a client with acute arterial limb ischemia?",o:["Keeping the affected limb flat or slightly dependent","Elevating the limb above heart level","Preparing for IV heparin infusion","Protecting the limb from pressure and trauma"],c:["Elevating the limb above heart level"],r:"Elevation is contraindicated in arterial ischemia — gravity is needed to maintain the already-compromised arterial blood flow. Elevation worsens ischemia and risks limb loss."}
 ]},
 {group:"Post-Mortem Care",qs:[
-{t:"mc",s:"A 74-year-old with terminal cancer is pronounced dead on the medical unit. Death was expected. The family is at the bedside. What is the most appropriate nursing action?",o:["Remove all lines and send the body to the morgue immediately","Provide post-mortem care, cleanse the body, and allow the family private time","Leave all devices in place until the medical examiner arrives","Collect personal belongings immediately for distribution"],c:[1],r:"For expected, non-forensic deaths, post-mortem care includes cleansing the body, closing eyes, placing dentures, elevating the head, and allowing family private time. Lines may be removed unless the death requires medical examiner review."},
-{t:"mc",s:"A nurse prepares to provide post-mortem care after an expected death. The family wishes to remain with the patient. Which action is most appropriate?",o:["Ask the family to wait outside while tubes and equipment are removed","Provide dignified post-mortem care and allow the family to remain at the bedside","Transfer the body immediately to the morgue for the next admission","Leave all equipment and await the morgue team before allowing family in"],c:[1],r:"Family-centered post-mortem care supports grieving. The nurse should cleanse the body, close eyes, place dentures, cover appropriately, and allow family private time without rushing them out."},
-{t:"mc",s:"After pronouncement of death on the medical unit, which nursing action is NOT appropriate?",o:["Cleansing the body and positioning it with the head slightly elevated","Allowing the family uninterrupted time with the patient","Removing all IV lines and sending the body to the morgue without informing the family","Placing dentures and closing the patient's eyes"],c:[2],r:"Immediately removing lines and sending the body to the morgue without giving the family time is a violation of patient dignity and family-centered care. Post-mortem care and unhurried family time should occur before transfer to the morgue."}
+{s:"A 74-year-old with terminal cancer is pronounced dead (expected, non-forensic). Family is at the bedside. Most appropriate nursing action?",o:["Remove all lines and send the body to the morgue immediately","Provide post-mortem care, cleanse the body, and allow the family private time","Leave all devices in place until the medical examiner arrives","Collect personal belongings immediately for distribution"],c:["Provide post-mortem care, cleanse the body, and allow the family private time"],r:"For expected, non-forensic deaths: cleanse the body, close eyes, place dentures, elevate the head, and allow family private time. There is no clinical urgency requiring immediate body transfer."},
+{s:"After an expected death, the family wishes to remain with the patient. Most appropriate nursing action?",o:["Ask family to wait outside while tubes are removed","Provide dignified post-mortem care and allow family to remain at the bedside","Transfer the body immediately to the morgue for room turnover","Leave all equipment and await the morgue team before allowing family in"],c:["Provide dignified post-mortem care and allow family to remain at the bedside"],r:"Family-centered post-mortem care supports the grieving process. Cleanse the body, position appropriately, and allow unhurried family time. There is no reason to separate the family from their loved one."},
+{s:"After pronouncement of death on the medical unit, which nursing action is NOT appropriate?",o:["Cleansing the body and positioning it with the head slightly elevated","Allowing the family uninterrupted time with the patient","Removing all IV lines and immediately sending the body to the morgue without notifying the family","Placing dentures and gently closing the patient's eyes"],c:["Removing all IV lines and immediately sending the body to the morgue without notifying the family"],r:"Immediately transferring the body to the morgue without giving the family time is a violation of patient dignity and family-centered care. Post-mortem care and family time take priority before transfer."}
 ]}
 ];
 
-// ─── GAME ENGINE ─────────────────────────────────────────────────────────────
-const TOTAL_Qs = 15;
-const TIME_PER_Q = 30;
-let state = {};
+// ── CONSTANTS ──────────────────────────────────────────────────────────────────
+const LEVELS=[
+  {name:'Student Nurse',icon:'🩺',next:150},
+  {name:'Intern',icon:'💊',next:400},
+  {name:'Resident',icon:'🩻',next:800},
+  {name:'Attending',icon:'❤️',next:1500},
+  {name:'Fellow',icon:'🏥',next:2500},
+  {name:'Chief of Staff',icon:'🚨',next:Infinity}
+];
+const BADGES={
+  first_session:{icon:'🎯',name:'First Shift',desc:'Complete your first session'},
+  perfect:{icon:'⭐',name:'Perfect Round',desc:'No wrong answers in a session'},
+  streak3:{icon:'🔥',name:'On Fire',desc:'3-day streak'},
+  streak7:{icon:'💥',name:'Unstoppable',desc:'7-day streak'},
+  intern:{icon:'💊',name:'Made Intern',desc:'Reach Intern level'},
+  resident:{icon:'🩻',name:'Made Resident',desc:'Reach Resident level'},
+  attending:{icon:'❤️',name:'Made Attending',desc:'Reach Attending level'}
+};
+const LVL_BADGES=['','intern','resident','attending','',''];
+const SESSION_LEN=10, MAX_HEARTS=3, XP_CORRECT=10;
 
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length-1; i > 0; i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
+// ── STORAGE ────────────────────────────────────────────────────────────────────
+const Store={
+  key:'nurs444_cb_v1',
+  mem:null,
+  def(){return{xp:0,streak:0,lastPlayed:null,topicScores:{},badges:[],totalSessions:0};},
+  async load(){
+    try{const r=await window.storage.get(this.key);const d=r?{...this.def(),...JSON.parse(r.value)}:this.def();this.mem=d;return d;}
+    catch(e){this.mem=this.mem||this.def();return this.mem;}
+  },
+  async save(d){
+    this.mem=d;
+    try{await window.storage.set(this.key,JSON.stringify(d));}catch(e){}
   }
-  return a;
+};
+
+// ── STATE ──────────────────────────────────────────────────────────────────────
+let DATA={}, G={};
+
+// ── UTILS ──────────────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+const app=()=>document.getElementById('app');
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function getLevel(xp){
+  let l=0;
+  for(let i=0;i<LEVELS.length-1;i++){if(xp<LEVELS[i].next){break;}l=i+1;}
+  return Math.min(l,LEVELS.length-1);
 }
 
-function buildSession() {
-  const groups = shuffle(QB).slice(0, TOTAL_Qs);
-  return groups.map(g => {
-    const q = g.qs[Math.floor(Math.random()*g.qs.length)];
-    return { ...q, group: g.group, opts: shuffle(q.o.map((text,i)=>({text,origIdx:i}))),
-      _correct: q.c };
-  }).map(q => {
-    // remap correct indices to shuffled order
-    const correctSet = new Set(q._correct);
-    q.correctShuffled = q.opts.map((o,si)=>correctSet.has(o.origIdx)?si:-1).filter(x=>x>=0);
-    return q;
+function getLevelProg(xp){
+  const l=getLevel(xp);
+  const base=l>0?LEVELS[l-1].next:0;
+  const next=LEVELS[l].next;
+  if(next===Infinity)return{pct:100,label:'MAX LEVEL'};
+  const pct=Math.min(100,((xp-base)/(next-base))*100);
+  return{pct,label:`${xp} / ${next} XP`};
+}
+
+// ── BUILD SESSION with weighted topic selection ────────────────────────────────
+function buildSession(){
+  const weighted=QB.map(g=>{
+    const ts=DATA.topicScores[g.group]||{c:0,w:0};
+    const tot=ts.c+ts.w;
+    const wr=tot>0?ts.w/tot:0;
+    return{g,weight:1+wr*3}; // weak topics up to 4x more likely
+  });
+  const selected=[], pool=[...weighted];
+  const n=Math.min(SESSION_LEN,QB.length);
+  for(let i=0;i<n;i++){
+    const totalW=pool.reduce((s,x)=>s+x.weight,0);
+    let r=Math.random()*totalW;
+    for(let j=0;j<pool.length;j++){r-=pool[j].weight;if(r<=0){selected.push(pool[j].g);pool.splice(j,1);break;}}
+  }
+  return selected.map(grp=>{
+    const raw=grp.qs[0|Math.random()*grp.qs.length];
+    // CORRECT ANSWER MATCHING BY TEXT — never breaks on shuffle
+    const shuffledOpts=shuffle([...raw.o]);
+    const correctTexts=new Set(raw.c);
+    const correctIdxs=[];
+    shuffledOpts.forEach((txt,i)=>{if(correctTexts.has(txt))correctIdxs.push(i);});
+    return{group:grp.group,stem:raw.s,opts:shuffledOpts,correctIdxs,
+           rationale:raw.r,isSATA:!!(raw.type==='sata'||raw.c.length>1)};
   });
 }
 
-function startGame() {
-  state = {
-    questions: buildSession(),
-    qi: 0,
-    score: 0,
-    streak: 0,
-    maxStreak: 0,
-    timer: null,
-    timeLeft: TIME_PER_Q,
-    selected: [],
-    answered: false,
-    results: []
-  };
-  showQuestion();
+function getWeakTopics(n){
+  return Object.entries(DATA.topicScores)
+    .filter(([,v])=>v.c+v.w>0)
+    .map(([k,v])=>({group:k,wr:v.w/(v.c+v.w)}))
+    .sort((a,b)=>b.wr-a.wr).slice(0,n);
 }
 
-function showStart() {
-  const topics = [...new Set(QB.map(g=>g.group))];
-  document.getElementById('app').innerHTML = `
-    <div class="start-card">
-      <div class="logo">🚨</div>
-      <h1>Crash Cart Challenge</h1>
-      <div class="subtitle">NURS 444 Critical Care Review &nbsp;·&nbsp; ${TOTAL_Qs} random questions per session</div>
-      <div class="topic-grid">
-        ${topics.map(t=>`<div class="topic-pill">${t}</div>`).join('')}
+function updateStreak(){
+  const today=new Date().toDateString();
+  const yesterday=new Date(Date.now()-86400000).toDateString();
+  if(DATA.lastPlayed===today)return;
+  DATA.streak=(DATA.lastPlayed===yesterday)?DATA.streak+1:1;
+  DATA.lastPlayed=today;
+}
+
+function checkBadges(sessionCorrect,sessionTotal,newXP){
+  const has=b=>DATA.badges.includes(b);
+  const newB=[];
+  if(!has('first_session'))newB.push('first_session');
+  if(sessionCorrect===sessionTotal&&!has('perfect'))newB.push('perfect');
+  if(DATA.streak>=3&&!has('streak3'))newB.push('streak3');
+  if(DATA.streak>=7&&!has('streak7'))newB.push('streak7');
+  const lvlBadge=LVL_BADGES[getLevel(newXP)];
+  if(lvlBadge&&!has(lvlBadge))newB.push(lvlBadge);
+  newB.forEach(b=>{if(!DATA.badges.includes(b))DATA.badges.push(b);});
+  return newB;
+}
+
+// ── SCREENS ────────────────────────────────────────────────────────────────────
+function showHome(){
+  const lv=getLevel(DATA.xp);
+  const L=LEVELS[lv];
+  const prog=getLevelProg(DATA.xp);
+  const weak=getWeakTopics(3);
+  const allB=Object.keys(BADGES);
+  app().innerHTML=`<div class="home">
+    <div class="home-header">
+      <div class="app-logo">🚨</div>
+      <div class="app-title">Code Blue</div>
+      <div class="app-sub">NURS 444 Critical Care Review</div>
+    </div>
+    <div class="level-card">
+      <div class="level-row">
+        <div class="level-badge">${L.icon} ${L.name}</div>
+        <span class="xp-lbl">${prog.label}</span>
       </div>
-      <button class="btn-primary" onclick="startGame()">START GAME</button>
-      <div class="meta">⏱ 30 seconds per question &nbsp;·&nbsp; Speed bonus points &nbsp;·&nbsp; 🔥 Streak bonuses</div>
-    </div>`;
+      <div class="xp-bg"><div class="xp-fill" style="width:${prog.pct}%"></div></div>
+    </div>
+    <div class="streak-card">
+      <div class="streak-num">🔥 ${DATA.streak}</div>
+      <div class="streak-lbl">${DATA.streak===1?'Day Streak':'Day Streak'}</div>
+      <div class="streak-sub">${DATA.streak===0?'Start your streak today!':DATA.streak>=7?'Absolutely unstoppable 💥':DATA.streak>=3?'Keep the fire going! 🔥':'Great start — come back tomorrow!'}</div>
+    </div>
+    <button class="btn-start" onclick="startSession()">▶ &nbsp;START SESSION &nbsp;(${SESSION_LEN} Questions · ${MAX_HEARTS} Lives)</button>
+    ${weak.length?`<div class="focus-card">
+      <div class="sec-title">🎯 Focus Areas — Needs Work</div>
+      ${weak.map(w=>`<div class="fi">
+        <span class="fi-name">${w.group}</span>
+        <div class="fi-right">
+          <span class="fi-pct">${Math.round(w.wr*100)}% ✗</span>
+          <div class="fi-bar-bg"><div class="fi-bar" style="width:${Math.round(w.wr*100)}%"></div></div>
+        </div>
+      </div>`).join('')}
+    </div>`:''}
+    <div class="badges-card">
+      <div class="sec-title">🏅 Badges (${DATA.badges.length}/${allB.length})</div>
+      <div class="badges-row">
+        ${allB.map(id=>{const b=BADGES[id];const e=DATA.badges.includes(id);
+          return`<div class="bp ${e?'earned':''}" title="${b.desc}">${b.icon} ${b.name}</div>`;}).join('')}
+      </div>
+    </div>
+  </div>`;
 }
 
-function showQuestion() {
-  const q = state.questions[state.qi];
-  state.selected = [];
-  state.answered = false;
-  state.timeLeft = TIME_PER_Q;
-  clearInterval(state.timer);
+function startSession(){
+  G={qs:buildSession(),qi:0,hearts:MAX_HEARTS,xpEarned:0,correct:0,sel:[],answered:false,results:[]};
+  showQ();
+}
 
-  const letters = 'ABCDE';
-  const optsHtml = q.opts.map((o,i)=>`
-    <button class="opt" id="opt${i}" onclick="selectOpt(${i})">
-      <span class="opt-letter">${letters[i]}</span>
-      <span>${o.text}</span>
-    </button>`).join('');
-
-  const isSATA = q.t === 'sata';
-  document.getElementById('app').innerHTML = `
+function showQ(){
+  const q=G.qs[G.qi];
+  G.sel=[];G.answered=false;
+  const L='ABCDE';
+  app().innerHTML=`<div class="session">
     <div class="hud">
-      <div class="hud-left">
-        <span class="progress-text">Question ${state.qi+1} / ${TOTAL_Qs}</span>
-        <span class="streak-badge ${state.streak>=3?'hot':''}" id="streakBadge">
-          ${state.streak>=3?'🔥':'⚡'} Streak: ${state.streak}
-        </span>
-      </div>
-      <div class="score-display" id="scoreDisp">Score: ${state.score}</div>
+      <div class="hearts">${Array.from({length:MAX_HEARTS},(_,i)=>`<span class="heart${i>=G.hearts?' lost':''}" id="h${i}">${i<G.hearts?'❤️':'🖤'}</span>`).join('')}</div>
+      <div class="dots">${G.qs.map((_,i)=>`<div class="dot${i<G.qi?' done':i===G.qi?' cur':''}"></div>`).join('')}</div>
+      <div class="hud-xp">+${G.xpEarned} XP</div>
     </div>
-    <div class="timer-wrap">
-      <div class="timer-bar-bg"><div class="timer-bar" id="timerBar" style="width:100%"></div></div>
-      <div class="timer-label" id="timerLabel">${TIME_PER_Q}s</div>
-    </div>
-    <div class="q-card">
-      <div class="q-meta">
-        <span class="q-category">${q.group}</span>
-        <span class="q-type">${isSATA?'Select All That Apply':'Multiple Choice'}</span>
+    <div class="qwrap">
+      <span class="q-tag">${q.group}</span>
+      <span class="q-typetag">${q.isSATA?'Select All That Apply':'Multiple Choice'}</span>
+      <div class="q-stem">${q.stem}</div>
+      ${q.isSATA?'<div class="sata-note">⚠️ Select ALL correct answers, then tap Submit</div>':''}
+      <div class="opts">
+        ${q.opts.map((o,i)=>`<button class="opt" id="o${i}" onclick="pick(${i})">
+          <span class="ol">${L[i]}</span><span>${o}</span>
+        </button>`).join('')}
       </div>
-      <div class="q-stem">${q.s}</div>
-      ${isSATA?'<div class="sata-hint">⚠️ Select ALL correct answers before submitting</div>':''}
-      <div class="options">${optsHtml}</div>
-      ${isSATA?`<div class="submit-wrap"><button class="btn-submit" id="submitBtn" onclick="submitSATA()" disabled>Submit Answer</button></div>`:''}
-    </div>`;
-
-  // Timer
-  state.timer = setInterval(()=>{
-    state.timeLeft--;
-    const pct = (state.timeLeft/TIME_PER_Q)*100;
-    const bar = document.getElementById('timerBar');
-    if (bar) {
-      bar.style.width = pct+'%';
-      bar.className = 'timer-bar'+(pct<30?' danger':pct<60?' warn':'');
-    }
-    const lbl = document.getElementById('timerLabel');
-    if (lbl) lbl.textContent = state.timeLeft+'s';
-    if (state.timeLeft <= 0) {
-      clearInterval(state.timer);
-      if (!state.answered) processAnswer([]);
-    }
-  }, 1000);
+      ${q.isSATA?`<div class="sub-wrap"><button class="btn-sub" id="sub" onclick="submitSATA()" disabled>Submit Answer</button></div>`:''}
+    </div>
+  </div>`;
 }
 
-function selectOpt(i) {
-  if (state.answered) return;
-  const q = state.questions[state.qi];
-  if (q.t === 'mc') {
-    state.selected = [i];
-    processAnswer([i]);
-  } else {
-    // SATA toggle
-    const idx = state.selected.indexOf(i);
-    if (idx === -1) state.selected.push(i);
-    else state.selected.splice(idx,1);
-    const btn = document.getElementById('opt'+i);
-    if (btn) btn.classList.toggle('selected', state.selected.includes(i));
-    const sub = document.getElementById('submitBtn');
-    if (sub) sub.disabled = state.selected.length === 0;
+function pick(i){
+  if(G.answered)return;
+  const q=G.qs[G.qi];
+  if(!q.isSATA){G.sel=[i];grade([i]);}
+  else{
+    const idx=G.sel.indexOf(i);
+    if(idx===-1)G.sel.push(i);else G.sel.splice(idx,1);
+    const el=$('o'+i);if(el)el.classList.toggle('sel',G.sel.includes(i));
+    const sub=$('sub');if(sub)sub.disabled=G.sel.length===0;
   }
 }
+function submitSATA(){if(!G.answered&&G.sel.length>0)grade([...G.sel]);}
 
-function submitSATA() {
-  if (state.answered || state.selected.length === 0) return;
-  processAnswer([...state.selected]);
-}
+function grade(chosen){
+  if(G.answered)return;
+  G.answered=true;
+  const q=G.qs[G.qi];
+  const corr=q.correctIdxs;
+  const ok=chosen.length===corr.length&&corr.every(c=>chosen.includes(c));
 
-function processAnswer(chosen) {
-  if (state.answered) return;
-  state.answered = true;
-  clearInterval(state.timer);
-  const q = state.questions[state.qi];
-  const correct = q.correctShuffled;
-  const isCorrect = chosen.length === correct.length && correct.every(c=>chosen.includes(c));
-
-  // Disable all options
   q.opts.forEach((_,i)=>{
-    const el = document.getElementById('opt'+i);
-    if (!el) return;
-    el.disabled = true;
-    if (correct.includes(i)) el.classList.add('correct');
-    else if (chosen.includes(i) && !correct.includes(i)) el.classList.add('wrong');
+    const el=$('o'+i);if(!el)return;
+    el.disabled=true;
+    if(corr.includes(i))el.classList.add('correct');
+    else if(chosen.includes(i))el.classList.add('wrong');
   });
+  const sub=$('sub');if(sub)sub.disabled=true;
 
-  const sub = document.getElementById('submitBtn');
-  if (sub) sub.disabled = true;
+  if(!DATA.topicScores[q.group])DATA.topicScores[q.group]={c:0,w:0};
+  if(ok){DATA.topicScores[q.group].c++;G.correct++;G.xpEarned+=XP_CORRECT;}
+  else{DATA.topicScores[q.group].w++;G.hearts--;loseHeart();}
 
-  let pts = 0;
-  if (isCorrect) {
-    const speedBonus = Math.round((state.timeLeft/TIME_PER_Q)*50);
-    pts = 100 + speedBonus;
-    state.streak++;
-    state.maxStreak = Math.max(state.maxStreak, state.streak);
-    if (state.streak > 0 && state.streak % 3 === 0) pts += 25;
-    state.score += pts;
-  } else {
-    state.streak = 0;
-  }
+  G.results.push({group:q.group,correct:ok});
 
-  state.results.push({ group: q.group, correct: isCorrect });
+  const correctAnswerText=corr.map(i=>q.opts[i]).join(' & ');
+  const overlay=document.createElement('div');
+  overlay.className='fb-overlay';
+  const panel=document.createElement('div');
+  panel.className=`fb ${ok?'ok':'err'}`;
+  panel.innerHTML=`
+    <div class="fb-head">${ok?'✅ Correct!':'❌ Incorrect'}</div>
+    ${!ok?`<div class="fb-correct">Correct answer: ${correctAnswerText}</div>`:''}
+    <div class="fb-body">${q.rationale}</div>
+    ${ok?`<div class="fb-xp">+${XP_CORRECT} XP</div>`:''}
+    <button class="btn-cont" onclick="next()">${G.hearts===0?'See Results →':G.qi+1>=SESSION_LEN?'Finish Session →':'Continue →'}</button>`;
+  document.body.appendChild(overlay);
+  document.body.appendChild(panel);
 
-  const fb = document.createElement('div');
-  fb.className = `feedback-overlay ${isCorrect?'correct-fb':'wrong-fb'}`;
-  fb.innerHTML = `
-    <div class="feedback-header">${isCorrect?'✅ Correct!':'❌ Incorrect'}</div>
-    <div class="feedback-rationale">${q.r}</div>
-    ${isCorrect?`<div class="pts-earned">+${pts} points${state.streak>=3?' 🔥 Streak bonus!':''}</div>`:''}
-    <button class="btn-next" onclick="nextQuestion()">${state.qi+1>=TOTAL_Qs?'See Results →':'Next Question →'}</button>`;
-  document.querySelector('.q-card').appendChild(fb);
-
-  const scoreDisp = document.getElementById('scoreDisp');
-  if (scoreDisp) scoreDisp.textContent = 'Score: '+state.score;
-  const streakBadge = document.getElementById('streakBadge');
-  if (streakBadge) {
-    streakBadge.textContent = `${state.streak>=3?'🔥':'⚡'} Streak: ${state.streak}`;
-    streakBadge.className = 'streak-badge'+(state.streak>=3?' hot':'');
-  }
+  // Update XP display
+  const hxp=$('hxp');if(hxp)hxp.textContent='+'+G.xpEarned+' XP';
 }
 
-function nextQuestion() {
-  state.qi++;
-  if (state.qi >= TOTAL_Qs) showEnd();
-  else showQuestion();
+function loseHeart(){
+  const lost=MAX_HEARTS-G.hearts;
+  const el=$('h'+(lost-1));
+  if(el){el.textContent='🖤';el.classList.add('lost','shake');}
 }
 
-function showEnd() {
-  const total = TOTAL_Qs;
-  const correct = state.results.filter(r=>r.correct).length;
-  const pct = Math.round((correct/total)*100);
-  let grade, gClass;
-  if (pct>=90){grade='A';gClass='grade-A';}
-  else if(pct>=80){grade='B';gClass='grade-B';}
-  else if(pct>=70){grade='C';gClass='grade-C';}
-  else if(pct>=60){grade='D';gClass='grade-D';}
-  else{grade='F';gClass='grade-F';}
-
-  // Group breakdown
-  const byGroup = {};
-  state.results.forEach(r=>{
-    if (!byGroup[r.group]) byGroup[r.group]={c:0,w:0};
-    if (r.correct) byGroup[r.group].c++;
-    else byGroup[r.group].w++;
-  });
-
-  const breakdownHtml = Object.entries(byGroup).map(([g,v])=>`
-    <div class="breakdown-item">
-      <span class="breakdown-cat">${g}</span>
-      <span class="breakdown-result ${v.w>0?'result-wrong':'result-correct'}">${v.c>0?'✓':''} ${v.w>0?'✗ Review':''}</span>
-    </div>`).join('');
-
-  const icons = pct>=90?'🏆':pct>=70?'💪':pct>=50?'📚':'🔄';
-  document.getElementById('app').innerHTML = `
-    <div class="end-card">
-      <div class="end-icon">${icons}</div>
-      <div class="end-score">${state.score} pts</div>
-      <span class="grade-badge ${gClass}">${correct}/${total} correct &nbsp;·&nbsp; ${pct}% &nbsp;·&nbsp; Grade ${grade}</span>
-      <div class="end-stats">
-        <div class="stat-box"><div class="stat-num">${correct}</div><div class="stat-lbl">Correct</div></div>
-        <div class="stat-box"><div class="stat-num">${total-correct}</div><div class="stat-lbl">Incorrect</div></div>
-        <div class="stat-box"><div class="stat-num">${state.maxStreak}</div><div class="stat-lbl">Best Streak</div></div>
-        <div class="stat-box"><div class="stat-num">${state.score}</div><div class="stat-lbl">Total Score</div></div>
-      </div>
-      <div class="breakdown-title">Topic Breakdown</div>
-      <div class="breakdown-grid">${breakdownHtml}</div>
-      <button class="btn-again" onclick="startGame()">🔄 Play Again (New Questions)</button>
-    </div>`;
+function next(){
+  document.querySelectorAll('.fb-overlay,.fb').forEach(e=>e.remove());
+  if(G.hearts===0){showGameOver();return;}
+  G.qi++;
+  if(G.qi>=SESSION_LEN)endSession();
+  else showQ();
 }
 
-showStart();
+function endSession(){
+  updateStreak();
+  const oldLv=getLevel(DATA.xp);
+  DATA.xp+=G.xpEarned;
+  DATA.totalSessions++;
+  G.newBadges=checkBadges(G.correct,SESSION_LEN,DATA.xp);
+  Store.save(DATA);
+  showResults(oldLv);
+}
+
+function showResults(oldLv){
+  const pct=Math.round(G.correct/SESSION_LEN*100);
+  const newLv=getLevel(DATA.xp);
+  const leveledUp=newLv>oldLv;
+  const byG={};
+  G.results.forEach(r=>{if(!byG[r.group])byG[r.group]={c:0,w:0};r.correct?byG[r.group].c++:byG[r.group].w++;});
+
+  app().innerHTML=`<div class="results">
+    <div class="res-icon">${pct===100?'🏆':pct>=80?'💪':pct>=60?'📚':'🔄'}</div>
+    <div class="res-title">${pct===100?'Perfect Session!':pct>=80?'Great Work!':pct>=60?'Keep Studying!':'Don\'t Give Up!'}</div>
+    <div class="res-sub">${G.correct}/${SESSION_LEN} correct &nbsp;·&nbsp; ${pct}%${leveledUp?`<br>🎉 Level Up! You're now ${LEVELS[newLv].icon} ${LEVELS[newLv].name}!`:''}</div>
+    <div class="xp-big">+${G.xpEarned}</div>
+    <div class="xp-big-lbl">XP earned this session &nbsp;·&nbsp; ${DATA.xp} XP total</div>
+    <div class="stats-row">
+      <div class="sbox"><div class="sn">${G.correct}</div><div class="sl">Correct</div></div>
+      <div class="sbox"><div class="sn">${SESSION_LEN-G.correct}</div><div class="sl">Incorrect</div></div>
+      <div class="sbox"><div class="sn">🔥${DATA.streak}</div><div class="sl">Day Streak</div></div>
+    </div>
+    ${G.newBadges.length?`<div class="new-bdg">
+      <div class="sec-title">🏅 New Badges Earned!</div>
+      <div class="bdg-row">${G.newBadges.map(id=>`<div class="bdg-pill">${BADGES[id].icon} ${BADGES[id].name}</div>`).join('')}</div>
+    </div>`:''}
+    <div class="breakdown">
+      <div class="sec-title" style="margin-bottom:8px">Session Breakdown</div>
+      ${Object.entries(byG).map(([g,v])=>`<div class="bdi">
+        <span class="bdi-name">${g}</span>
+        <span class="${v.w===0?'bdi-ok':'bdi-err'}">${v.w===0?'✓ Strong':'✗ Review'}</span>
+      </div>`).join('')}
+    </div>
+    <div class="res-btns">
+      <button class="btn-again" onclick="startSession()">▶ Play Again</button>
+      <button class="btn-home" onclick="showHome()">🏠 Home</button>
+    </div>
+  </div>`;
+}
+
+function showGameOver(){
+  Store.save(DATA);
+  app().innerHTML=`<div class="gameover">
+    <div class="go-icon">💔</div>
+    <div class="go-title">Out of Hearts</div>
+    <div class="go-sub">You ran out of lives with ${SESSION_LEN-G.qi} question${SESSION_LEN-G.qi!==1?'s':''} remaining.<br><br>Review your weak areas on the home screen and try again. You've got this.</div>
+    <button class="btn-retry" onclick="startSession()">Try Again</button>
+    <br style="margin:8px 0">
+    <button class="btn-go-home" onclick="showHome()">🏠 Home</button>
+  </div>`;
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
+async function init(){DATA=await Store.load();showHome();}
+init();
 </script>
 </body>
 </html>
