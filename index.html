@@ -288,12 +288,12 @@ const Store={
   mem:null,
   def(){return{xp:0,streak:0,lastPlayed:null,topicScores:{},badges:[],totalSessions:0,seenVariants:{}};},
   async load(){
-    try{const r=await window.storage.get(this.key);const d=r?{...this.def(),...JSON.parse(r.value)}:this.def();this.mem=d;return d;}
+    try{const r=localStorage.getItem(this.key);const d=r?{...this.def(),...JSON.parse(r)}:this.def();this.mem=d;return d;}
     catch(e){this.mem=this.mem||this.def();return this.mem;}
   },
   async save(d){
     this.mem=d;
-    try{await window.storage.set(this.key,JSON.stringify(d));}catch(e){}
+    try{localStorage.setItem(this.key,JSON.stringify(d));}catch(e){}
   }
 };
 
