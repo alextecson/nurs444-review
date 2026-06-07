@@ -74,9 +74,9 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;color:#e6edf
 
 /* FEEDBACK */
 .fb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:99}
-.fb{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:640px;border-radius:20px 20px 0 0;padding:22px 18px 28px;z-index:100;animation:sUp .28s ease}
-.fb.ok{background:#071a0e;border:2px solid #22c55e;border-bottom:none}
-.fb.err{background:#1a0707;border:2px solid #ef4444;border-bottom:none}
+.fb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% - 32px);max-width:560px;border-radius:16px;padding:24px 20px;z-index:100;animation:fbIn .25s ease;max-height:85vh;overflow-y:auto}
+.fb.ok{background:#071a0e;border:2px solid #22c55e}
+.fb.err{background:#1a0707;border:2px solid #ef4444}
 .fb-head{font-size:1.15rem;font-weight:800;margin-bottom:7px}
 .fb.ok .fb-head{color:#22c55e}
 .fb.err .fb-head{color:#ef4444}
@@ -119,7 +119,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0d1117;color:#e6edf
 .btn-retry{background:linear-gradient(135deg,#ef4444,#f97316);border:none;color:#fff;padding:16px 48px;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:12px;display:block;width:100%;max-width:280px}
 .btn-go-home{background:#21262d;border:1px solid #30363d;color:#e6edf3;padding:13px 40px;border-radius:12px;font-size:.92rem;font-weight:600;cursor:pointer;width:100%;max-width:280px}
 
-@keyframes sUp{from{transform:translateX(-50%) translateY(100%)}to{transform:translateX(-50%) translateY(0)}}
+@keyframes fbIn{from{opacity:0;transform:translate(-50%,-46%)}to{opacity:1;transform:translate(-50%,-50%)}}
 @keyframes bounce{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 .shake{animation:shake .3s ease}
@@ -510,7 +510,7 @@ function grade(chosen){
   document.body.appendChild(panel);
   // Wire the button directly so it always fires, and scroll it into view
   const cb=document.getElementById('contBtn');
-  if(cb){cb.onclick=next;cb.scrollIntoView({block:'nearest'});}
+  if(cb)cb.onclick=next;
   overlay.onclick=next;
 }
 
